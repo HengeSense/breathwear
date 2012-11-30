@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  ExerciseMainViewController.h
 //  Brythm
 //
 //  Created by Cassidy Robert Coyote Saenz on 11/29/12.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
+@interface ExerciseMainViewController : UIViewController
 
 @end

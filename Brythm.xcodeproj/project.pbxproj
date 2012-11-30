@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6B586C131668802E002207BF /* BreathWearIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B586C121668802E002207BF /* BreathWearIcon.png */; };
 		6BAA3A7F166812420060DFCF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BAA3A7E166812420060DFCF /* UIKit.framework */; };
 		6BAA3A81166812420060DFCF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BAA3A80166812420060DFCF /* Foundation.framework */; };
 		6BAA3A83166812420060DFCF /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BAA3A82166812420060DFCF /* CoreGraphics.framework */; };
@@ -17,10 +18,26 @@
 		6BAA3A93166812430060DFCF /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BAA3A92166812430060DFCF /* Default@2x.png */; };
 		6BAA3A95166812430060DFCF /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BAA3A94166812430060DFCF /* Default-568h@2x.png */; };
 		6BAA3A98166812430060DFCF /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6BAA3A96166812430060DFCF /* MainStoryboard.storyboard */; };
-		6BAA3A9B166812430060DFCF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BAA3A9A166812430060DFCF /* ViewController.m */; };
+		6BAA3B2A166877990060DFCF /* breathwear.db in Resources */ = {isa = PBXBuildFile; fileRef = 6BAA3B29166877990060DFCF /* breathwear.db */; };
+		6BAA3B3C166877AF0060DFCF /* ExerciseActualView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BAA3B2C166877AF0060DFCF /* ExerciseActualView.m */; };
+		6BAA3B3D166877AF0060DFCF /* ExerciseBGView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BAA3B2E166877AF0060DFCF /* ExerciseBGView.m */; };
+		6BAA3B3E166877AF0060DFCF /* ExerciseDoneView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BAA3B30166877AF0060DFCF /* ExerciseDoneView.m */; };
+		6BAA3B3F166877AF0060DFCF /* ExerciseDoneView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BAA3B31166877AF0060DFCF /* ExerciseDoneView.xib */; };
+		6BAA3B40166877AF0060DFCF /* ExerciseGuideView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BAA3B33166877AF0060DFCF /* ExerciseGuideView.m */; };
+		6BAA3B41166877AF0060DFCF /* ExerciseTimerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BAA3B35166877AF0060DFCF /* ExerciseTimerView.m */; };
+		6BAA3B42166877AF0060DFCF /* ExerciseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BAA3B37166877AF0060DFCF /* ExerciseView.m */; };
+		6BAA3B43166877AF0060DFCF /* ExerciseView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BAA3B38166877AF0060DFCF /* ExerciseView.xib */; };
+		6BAA3B44166877AF0060DFCF /* ExerciseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BAA3B3A166877AF0060DFCF /* ExerciseViewController.m */; };
+		6BAA3B45166877AF0060DFCF /* ExerciseViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BAA3B3B166877AF0060DFCF /* ExerciseViewController.xib */; };
+		6BAA3B4A166877B70060DFCF /* BreathWearDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BAA3B47166877B70060DFCF /* BreathWearDatabase.m */; };
+		6BAA3B4B166877B70060DFCF /* BreathWearRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BAA3B49166877B70060DFCF /* BreathWearRecord.m */; };
+		6BAA3B4D166877C10060DFCF /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BAA3B4C166877C10060DFCF /* libsqlite3.0.dylib */; };
+		6BAA3B4F166878020060DFCF /* smiley.png in Resources */ = {isa = PBXBuildFile; fileRef = 6BAA3B4E166878020060DFCF /* smiley.png */; };
+		6BAA3B5C16687A0A0060DFCF /* MainExerciseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BAA3B5B16687A0A0060DFCF /* MainExerciseViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6B586C121668802E002207BF /* BreathWearIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BreathWearIcon.png; path = Images/BreathWearIcon.png; sourceTree = "<group>"; };
 		6BAA3A7A166812420060DFCF /* Brythm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Brythm.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BAA3A7E166812420060DFCF /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		6BAA3A80166812420060DFCF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -35,8 +52,32 @@
 		6BAA3A92166812430060DFCF /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		6BAA3A94166812430060DFCF /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		6BAA3A97166812430060DFCF /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
-		6BAA3A99166812430060DFCF /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		6BAA3A9A166812430060DFCF /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		6BAA3B29166877990060DFCF /* breathwear.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = breathwear.db; sourceTree = "<group>"; };
+		6BAA3B2B166877AF0060DFCF /* ExerciseActualView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ExerciseActualView.h; path = Exercise/ExerciseActualView.h; sourceTree = "<group>"; };
+		6BAA3B2C166877AF0060DFCF /* ExerciseActualView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ExerciseActualView.m; path = Exercise/ExerciseActualView.m; sourceTree = "<group>"; };
+		6BAA3B2D166877AF0060DFCF /* ExerciseBGView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ExerciseBGView.h; path = Exercise/ExerciseBGView.h; sourceTree = "<group>"; };
+		6BAA3B2E166877AF0060DFCF /* ExerciseBGView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ExerciseBGView.m; path = Exercise/ExerciseBGView.m; sourceTree = "<group>"; };
+		6BAA3B2F166877AF0060DFCF /* ExerciseDoneView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ExerciseDoneView.h; path = Exercise/ExerciseDoneView.h; sourceTree = "<group>"; };
+		6BAA3B30166877AF0060DFCF /* ExerciseDoneView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ExerciseDoneView.m; path = Exercise/ExerciseDoneView.m; sourceTree = "<group>"; };
+		6BAA3B31166877AF0060DFCF /* ExerciseDoneView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ExerciseDoneView.xib; path = Exercise/ExerciseDoneView.xib; sourceTree = "<group>"; };
+		6BAA3B32166877AF0060DFCF /* ExerciseGuideView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ExerciseGuideView.h; path = Exercise/ExerciseGuideView.h; sourceTree = "<group>"; };
+		6BAA3B33166877AF0060DFCF /* ExerciseGuideView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ExerciseGuideView.m; path = Exercise/ExerciseGuideView.m; sourceTree = "<group>"; };
+		6BAA3B34166877AF0060DFCF /* ExerciseTimerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ExerciseTimerView.h; path = Exercise/ExerciseTimerView.h; sourceTree = "<group>"; };
+		6BAA3B35166877AF0060DFCF /* ExerciseTimerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ExerciseTimerView.m; path = Exercise/ExerciseTimerView.m; sourceTree = "<group>"; };
+		6BAA3B36166877AF0060DFCF /* ExerciseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ExerciseView.h; path = Exercise/ExerciseView.h; sourceTree = "<group>"; };
+		6BAA3B37166877AF0060DFCF /* ExerciseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ExerciseView.m; path = Exercise/ExerciseView.m; sourceTree = "<group>"; };
+		6BAA3B38166877AF0060DFCF /* ExerciseView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ExerciseView.xib; path = Exercise/ExerciseView.xib; sourceTree = "<group>"; };
+		6BAA3B39166877AF0060DFCF /* ExerciseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ExerciseViewController.h; path = Exercise/ExerciseViewController.h; sourceTree = "<group>"; };
+		6BAA3B3A166877AF0060DFCF /* ExerciseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ExerciseViewController.m; path = Exercise/ExerciseViewController.m; sourceTree = "<group>"; };
+		6BAA3B3B166877AF0060DFCF /* ExerciseViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ExerciseViewController.xib; path = Exercise/ExerciseViewController.xib; sourceTree = "<group>"; };
+		6BAA3B46166877B70060DFCF /* BreathWearDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BreathWearDatabase.h; path = Database/BreathWearDatabase.h; sourceTree = "<group>"; };
+		6BAA3B47166877B70060DFCF /* BreathWearDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BreathWearDatabase.m; path = Database/BreathWearDatabase.m; sourceTree = "<group>"; };
+		6BAA3B48166877B70060DFCF /* BreathWearRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BreathWearRecord.h; path = Database/BreathWearRecord.h; sourceTree = "<group>"; };
+		6BAA3B49166877B70060DFCF /* BreathWearRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BreathWearRecord.m; path = Database/BreathWearRecord.m; sourceTree = "<group>"; };
+		6BAA3B4C166877C10060DFCF /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
+		6BAA3B4E166878020060DFCF /* smiley.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = smiley.png; path = Images/smiley.png; sourceTree = "<group>"; };
+		6BAA3B5A16687A0A0060DFCF /* MainExerciseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainExerciseViewController.h; path = Exercise/MainExerciseViewController.h; sourceTree = "<group>"; };
+		6BAA3B5B16687A0A0060DFCF /* MainExerciseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MainExerciseViewController.m; path = Exercise/MainExerciseViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,6 +85,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6BAA3B4D166877C10060DFCF /* libsqlite3.0.dylib in Frameworks */,
 				6BAA3A7F166812420060DFCF /* UIKit.framework in Frameworks */,
 				6BAA3A81166812420060DFCF /* Foundation.framework in Frameworks */,
 				6BAA3A83166812420060DFCF /* CoreGraphics.framework in Frameworks */,
@@ -56,6 +98,7 @@
 		6BAA3A6F166812420060DFCF = {
 			isa = PBXGroup;
 			children = (
+				6BAA3B4C166877C10060DFCF /* libsqlite3.0.dylib */,
 				6BAA3A84166812420060DFCF /* Brythm */,
 				6BAA3A7D166812420060DFCF /* Frameworks */,
 				6BAA3A7B166812420060DFCF /* Products */,
@@ -86,8 +129,9 @@
 				6BAA3A8D166812420060DFCF /* AppDelegate.h */,
 				6BAA3A8E166812420060DFCF /* AppDelegate.m */,
 				6BAA3A96166812430060DFCF /* MainStoryboard.storyboard */,
-				6BAA3A99166812430060DFCF /* ViewController.h */,
-				6BAA3A9A166812430060DFCF /* ViewController.m */,
+				6BAA3B28166877320060DFCF /* Database */,
+				6BAA3B211668771A0060DFCF /* Exercise */,
+				6BAA3B501668780B0060DFCF /* Images */,
 				6BAA3A85166812420060DFCF /* Supporting Files */,
 			);
 			path = Brythm;
@@ -105,6 +149,53 @@
 				6BAA3A94166812430060DFCF /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		6BAA3B211668771A0060DFCF /* Exercise */ = {
+			isa = PBXGroup;
+			children = (
+				6BAA3B2B166877AF0060DFCF /* ExerciseActualView.h */,
+				6BAA3B2C166877AF0060DFCF /* ExerciseActualView.m */,
+				6BAA3B2D166877AF0060DFCF /* ExerciseBGView.h */,
+				6BAA3B2E166877AF0060DFCF /* ExerciseBGView.m */,
+				6BAA3B2F166877AF0060DFCF /* ExerciseDoneView.h */,
+				6BAA3B30166877AF0060DFCF /* ExerciseDoneView.m */,
+				6BAA3B31166877AF0060DFCF /* ExerciseDoneView.xib */,
+				6BAA3B32166877AF0060DFCF /* ExerciseGuideView.h */,
+				6BAA3B33166877AF0060DFCF /* ExerciseGuideView.m */,
+				6BAA3B34166877AF0060DFCF /* ExerciseTimerView.h */,
+				6BAA3B35166877AF0060DFCF /* ExerciseTimerView.m */,
+				6BAA3B36166877AF0060DFCF /* ExerciseView.h */,
+				6BAA3B37166877AF0060DFCF /* ExerciseView.m */,
+				6BAA3B38166877AF0060DFCF /* ExerciseView.xib */,
+				6BAA3B5A16687A0A0060DFCF /* MainExerciseViewController.h */,
+				6BAA3B5B16687A0A0060DFCF /* MainExerciseViewController.m */,
+				6BAA3B39166877AF0060DFCF /* ExerciseViewController.h */,
+				6BAA3B3A166877AF0060DFCF /* ExerciseViewController.m */,
+				6BAA3B3B166877AF0060DFCF /* ExerciseViewController.xib */,
+			);
+			name = Exercise;
+			sourceTree = "<group>";
+		};
+		6BAA3B28166877320060DFCF /* Database */ = {
+			isa = PBXGroup;
+			children = (
+				6BAA3B29166877990060DFCF /* breathwear.db */,
+				6BAA3B46166877B70060DFCF /* BreathWearDatabase.h */,
+				6BAA3B47166877B70060DFCF /* BreathWearDatabase.m */,
+				6BAA3B48166877B70060DFCF /* BreathWearRecord.h */,
+				6BAA3B49166877B70060DFCF /* BreathWearRecord.m */,
+			);
+			name = Database;
+			sourceTree = "<group>";
+		};
+		6BAA3B501668780B0060DFCF /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				6BAA3B4E166878020060DFCF /* smiley.png */,
+				6B586C121668802E002207BF /* BreathWearIcon.png */,
+			);
+			name = Images;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -163,6 +254,12 @@
 				6BAA3A93166812430060DFCF /* Default@2x.png in Resources */,
 				6BAA3A95166812430060DFCF /* Default-568h@2x.png in Resources */,
 				6BAA3A98166812430060DFCF /* MainStoryboard.storyboard in Resources */,
+				6BAA3B2A166877990060DFCF /* breathwear.db in Resources */,
+				6BAA3B3F166877AF0060DFCF /* ExerciseDoneView.xib in Resources */,
+				6BAA3B43166877AF0060DFCF /* ExerciseView.xib in Resources */,
+				6BAA3B45166877AF0060DFCF /* ExerciseViewController.xib in Resources */,
+				6BAA3B4F166878020060DFCF /* smiley.png in Resources */,
+				6B586C131668802E002207BF /* BreathWearIcon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -175,7 +272,16 @@
 			files = (
 				6BAA3A8B166812420060DFCF /* main.m in Sources */,
 				6BAA3A8F166812420060DFCF /* AppDelegate.m in Sources */,
-				6BAA3A9B166812430060DFCF /* ViewController.m in Sources */,
+				6BAA3B3C166877AF0060DFCF /* ExerciseActualView.m in Sources */,
+				6BAA3B3D166877AF0060DFCF /* ExerciseBGView.m in Sources */,
+				6BAA3B3E166877AF0060DFCF /* ExerciseDoneView.m in Sources */,
+				6BAA3B40166877AF0060DFCF /* ExerciseGuideView.m in Sources */,
+				6BAA3B41166877AF0060DFCF /* ExerciseTimerView.m in Sources */,
+				6BAA3B42166877AF0060DFCF /* ExerciseView.m in Sources */,
+				6BAA3B44166877AF0060DFCF /* ExerciseViewController.m in Sources */,
+				6BAA3B4A166877B70060DFCF /* BreathWearDatabase.m in Sources */,
+				6BAA3B4B166877B70060DFCF /* BreathWearRecord.m in Sources */,
+				6BAA3B5C16687A0A0060DFCF /* MainExerciseViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -292,6 +398,7 @@
 				6BAA3AA0166812430060DFCF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
