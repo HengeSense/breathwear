@@ -4,10 +4,10 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1930"/>
     </dependencies>
     <scenes>
-        <!--View Controller - Brythm-->
+        <!--Brythm View Controller - Brythm-->
         <scene sceneID="HoX-l0-Hwb">
             <objects>
-                <viewController storyboardIdentifier="Brythm" title="Brythm" useStoryboardIdentifierAsRestorationIdentifier="YES" id="tZP-9e-F1M" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Brythm" title="Brythm" useStoryboardIdentifierAsRestorationIdentifier="YES" id="tZP-9e-F1M" customClass="BrythmViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="PsD-9x-JOf">
                         <rect key="frame" x="0.0" y="20" width="320" height="499"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -119,6 +119,9 @@
         <image name="smiley.png" width="1000" height="1000"/>
     </resources>
     <classes>
+        <class className="BrythmViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/BrythmViewController.h"/>
+        </class>
         <class className="MainExerciseViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/MainExerciseViewController.h"/>
         </class>

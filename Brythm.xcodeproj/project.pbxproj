@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		6B586C131668802E002207BF /* BreathWearIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B586C121668802E002207BF /* BreathWearIcon.png */; };
+		6BA5877B166EC3EC004A11DE /* libCorePlot-CocoaTouch.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BA58778166EC3A1004A11DE /* libCorePlot-CocoaTouch.a */; };
+		6BA5877D166EC4C1004A11DE /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BA5877C166EC4C1004A11DE /* QuartzCore.framework */; };
+		6BA58780166EC4F6004A11DE /* BrythmViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BA5877F166EC4F6004A11DE /* BrythmViewController.m */; };
 		6BAA3A7F166812420060DFCF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BAA3A7E166812420060DFCF /* UIKit.framework */; };
 		6BAA3A81166812420060DFCF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BAA3A80166812420060DFCF /* Foundation.framework */; };
 		6BAA3A83166812420060DFCF /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BAA3A82166812420060DFCF /* CoreGraphics.framework */; };
@@ -36,8 +39,29 @@
 		6BAA3B5C16687A0A0060DFCF /* MainExerciseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BAA3B5B16687A0A0060DFCF /* MainExerciseViewController.m */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		6BA58777166EC3A1004A11DE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6BA5876E166EC3A1004A11DE /* CorePlot-CocoaTouch.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BC9B83470FB8A0A40035D8DA;
+			remoteInfo = "CorePlot-CocoaTouch";
+		};
+		6BA58779166EC3CA004A11DE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6BA5876E166EC3A1004A11DE /* CorePlot-CocoaTouch.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = BC9B83460FB8A0A40035D8DA;
+			remoteInfo = "CorePlot-CocoaTouch";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		6B586C121668802E002207BF /* BreathWearIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BreathWearIcon.png; path = Images/BreathWearIcon.png; sourceTree = "<group>"; };
+		6BA5876E166EC3A1004A11DE /* CorePlot-CocoaTouch.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "CorePlot-CocoaTouch.xcodeproj"; path = "Brythm/Frameworks/CorePlot_1.1/Source/framework/CorePlot-CocoaTouch.xcodeproj"; sourceTree = "<group>"; };
+		6BA5877C166EC4C1004A11DE /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		6BA5877E166EC4F6004A11DE /* BrythmViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrythmViewController.h; sourceTree = "<group>"; };
+		6BA5877F166EC4F6004A11DE /* BrythmViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrythmViewController.m; sourceTree = "<group>"; };
 		6BAA3A7A166812420060DFCF /* Brythm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Brythm.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BAA3A7E166812420060DFCF /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		6BAA3A80166812420060DFCF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -85,7 +109,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6BA5877D166EC4C1004A11DE /* QuartzCore.framework in Frameworks */,
 				6BAA3B4D166877C10060DFCF /* libsqlite3.0.dylib in Frameworks */,
+				6BA5877B166EC3EC004A11DE /* libCorePlot-CocoaTouch.a in Frameworks */,
 				6BAA3A7F166812420060DFCF /* UIKit.framework in Frameworks */,
 				6BAA3A81166812420060DFCF /* Foundation.framework in Frameworks */,
 				6BAA3A83166812420060DFCF /* CoreGraphics.framework in Frameworks */,
@@ -95,9 +121,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6BA5876F166EC3A1004A11DE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6BA58778166EC3A1004A11DE /* libCorePlot-CocoaTouch.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		6BAA3A6F166812420060DFCF = {
 			isa = PBXGroup;
 			children = (
+				6BA5876E166EC3A1004A11DE /* CorePlot-CocoaTouch.xcodeproj */,
 				6BAA3B4C166877C10060DFCF /* libsqlite3.0.dylib */,
 				6BAA3A84166812420060DFCF /* Brythm */,
 				6BAA3A7D166812420060DFCF /* Frameworks */,
@@ -116,6 +151,7 @@
 		6BAA3A7D166812420060DFCF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6BA5877C166EC4C1004A11DE /* QuartzCore.framework */,
 				6BAA3A7E166812420060DFCF /* UIKit.framework */,
 				6BAA3A80166812420060DFCF /* Foundation.framework */,
 				6BAA3A82166812420060DFCF /* CoreGraphics.framework */,
@@ -128,6 +164,8 @@
 			children = (
 				6BAA3A8D166812420060DFCF /* AppDelegate.h */,
 				6BAA3A8E166812420060DFCF /* AppDelegate.m */,
+				6BA5877E166EC4F6004A11DE /* BrythmViewController.h */,
+				6BA5877F166EC4F6004A11DE /* BrythmViewController.m */,
 				6BAA3A96166812430060DFCF /* MainStoryboard.storyboard */,
 				6BAA3B28166877320060DFCF /* Database */,
 				6BAA3B211668771A0060DFCF /* Exercise */,
@@ -212,6 +250,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				6BA5877A166EC3CA004A11DE /* PBXTargetDependency */,
 			);
 			name = Brythm;
 			productName = Brythm;
@@ -233,16 +272,33 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				English,
 			);
 			mainGroup = 6BAA3A6F166812420060DFCF;
 			productRefGroup = 6BAA3A7B166812420060DFCF /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 6BA5876F166EC3A1004A11DE /* Products */;
+					ProjectRef = 6BA5876E166EC3A1004A11DE /* CorePlot-CocoaTouch.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				6BAA3A79166812420060DFCF /* Brythm */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		6BA58778166EC3A1004A11DE /* libCorePlot-CocoaTouch.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libCorePlot-CocoaTouch.a";
+			remoteRef = 6BA58777166EC3A1004A11DE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		6BAA3A78166812420060DFCF /* Resources */ = {
@@ -282,10 +338,19 @@
 				6BAA3B4A166877B70060DFCF /* BreathWearDatabase.m in Sources */,
 				6BAA3B4B166877B70060DFCF /* BreathWearRecord.m in Sources */,
 				6BAA3B5C16687A0A0060DFCF /* MainExerciseViewController.m in Sources */,
+				6BA58780166EC4F6004A11DE /* BrythmViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		6BA5877A166EC3CA004A11DE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "CorePlot-CocoaTouch";
+			targetProxy = 6BA58779166EC3CA004A11DE /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		6BAA3A87166812420060DFCF /* InfoPlist.strings */ = {
@@ -362,7 +427,13 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Brythm/Brythm-Prefix.pch";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/Brythm/Frameworks/CorePlot_1.1/Source/framework/\"/**";
 				INFOPLIST_FILE = "Brythm/Brythm-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Brythm/Frameworks/CorePlot_1.1/Binaries/iOS\"",
+				);
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -373,7 +444,13 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Brythm/Brythm-Prefix.pch";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/Brythm/Frameworks/CorePlot_1.1/Source/framework/\"/**";
 				INFOPLIST_FILE = "Brythm/Brythm-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Brythm/Frameworks/CorePlot_1.1/Binaries/iOS\"",
+				);
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
