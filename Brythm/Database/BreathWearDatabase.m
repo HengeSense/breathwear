@@ -126,6 +126,8 @@ static BreathWearDatabase *_database_ = nil;
             }
         }
         
+        dbFilePath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:filename];
+        
 		const char *c_file_path = [dbFilePath cStringUsingEncoding:NSASCIIStringEncoding];
 		int rc = sqlite3_open(c_file_path, &db);
 		if (rc) 

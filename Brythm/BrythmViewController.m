@@ -31,18 +31,16 @@
 
 - (BreathWearDatabase *)db
 {
-    if (_db != nil)
-        return _db;
-    else
-        return [BreathWearDatabase getDatabase];
+    if (!_db)
+        _db = [BreathWearDatabase getDatabase];
+    return _db;
 }
 
 - (NSArray *)breathrates
 {
-    if (_breathrates != nil)
-        return _breathrates;
-    else
-        return [self.db getRecordsForSession:DEFAULT_SESSION_ID];
+    if (!_breathrates)
+        _breathrates = [self.db getRecordsForSession:DEFAULT_SESSION_ID];
+    return _breathrates;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -58,8 +56,6 @@
 
 -(NSUInteger)numberOfRecordsForPlot:(CPTPlot *)plot
 {
-    NSUInteger count = self.breathrates.count;
-    NSLog(@"count: %u", count);
     return self.breathrates.count;
 }
 
@@ -68,7 +64,7 @@
     BreathWearRecord *record = [self.breathrates objectAtIndex:idx];
     double val = record.breathRate;
     if(fieldEnum == CPTScatterPlotFieldX)
-    { return [NSNumber numberWithDouble:(record.timestamp - record.sessionid)]; }
+    { return [NSNumber numberWithDouble:(record.timestamp - record.sessionid - 60)]; }
     else
     {
         if(plot.identifier == @"Main Plot")
@@ -84,20 +80,23 @@
 {
     [super viewDidLoad];
     
+    self.db = [BreathWearDatabase getDatabase];
+    self.breathrates = [self.db getRecordsForSession:DEFAULT_SESSION_ID];
+    
     self.graph = [[CPTXYGraph alloc] initWithFrame:self.view.bounds];
-    [self.graph applyTheme:[CPTTheme themeNamed:kCPTDarkGradientTheme]];
+    [self.graph applyTheme:[CPTTheme themeNamed:kCPTSlateTheme]];
     
     CPTGraphHostingView *hostingView = (CPTGraphHostingView *)self.view;
     hostingView.hostedGraph = self.graph;
     self.graph.paddingLeft = 20.0;
-    self.graph.paddingTop = 20.0;
+    self.graph.paddingTop = 200.0;
     self.graph.paddingRight = 20.0;
     self.graph.paddingBottom = 20.0;
 
     CPTXYPlotSpace *plotSpace = (CPTXYPlotSpace *)self.graph.defaultPlotSpace;
-    plotSpace.xRange = [CPTPlotRange plotRangeWithLocation:CPTDecimalFromFloat(-1)
-                                                   length:CPTDecimalFromFloat(60)];
-    plotSpace.yRange = [CPTPlotRange plotRangeWithLocation:CPTDecimalFromFloat(-1)
+    plotSpace.xRange = [CPTPlotRange plotRangeWithLocation:CPTDecimalFromFloat(-180)
+                                                   length:CPTDecimalFromFloat(1200)];
+    plotSpace.yRange = [CPTPlotRange plotRangeWithLocation:CPTDecimalFromFloat(-3)
                                                    length:CPTDecimalFromFloat(25)];
     plotSpace.allowsUserInteraction = YES;
     
@@ -129,7 +128,7 @@
                                     init];
     plot.identifier = @"Main Plot";
     CPTMutableLineStyle *dataLineStyle1 = [CPTLineStyle lineStyle];
-    dataLineStyle1.lineColor = [CPTColor redColor];
+    dataLineStyle1.lineColor = [CPTColor blueColor];
     dataLineStyle1.lineWidth = 1.0f;
     plot.dataLineStyle = dataLineStyle1;
     plot.dataSource = self;
