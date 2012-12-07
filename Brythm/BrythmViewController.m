@@ -64,9 +64,14 @@
     BreathWearRecord *record = [self.breathrates objectAtIndex:idx];
     double val = record.breathRate;
     if(fieldEnum == CPTScatterPlotFieldX)
-    { return [NSNumber numberWithDouble:(record.timestamp - record.sessionid - 60)]; }
+    {
+        double x = record.timestamp - (double)record.sessionid - 60.0;
+        printf("%f\n", record.timestamp);
+        return [NSNumber numberWithDouble:x];
+    }
     else
     {
+        //printf("%f\n", val);
         if(plot.identifier == @"Main Plot")
         { return [NSNumber numberWithDouble:val]; }
         else

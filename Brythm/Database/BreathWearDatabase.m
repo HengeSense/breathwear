@@ -76,7 +76,7 @@ static BreathWearRecord *getRateFromStatement(sqlite3_stmt *sql_stmt)
 
     int sessionid = getIntColumn(sql_stmt, 0);
     double breathRate = getDoubleColumn(sql_stmt, 1);
-    int timestamp = getIntColumn(sql_stmt, 2);
+    double timestamp = getDoubleColumn(sql_stmt, 2);
     unsigned char sensor_value = (unsigned int) getIntColumn(sql_stmt, 3);
     float baseline = getFloatColumn(sql_stmt, 4);
     BreathWearRecord *record = [[BreathWearRecord alloc] initWithRate:breathRate 
