@@ -26,6 +26,34 @@
     return self;
 }
  */
+/*
+# pragma mark - CPTPlotDataSource Methods
+
+-(NSUInteger)numberOfRecordsForPlot:(CPTPlot *)plot
+{
+    return self.breathrates.count;
+}
+
+-(NSNumber *)numberForPlot:(CPTPlot *)plot field:(NSUInteger)fieldEnum recordIndex:(NSUInteger)idx
+{
+    BreathWearRecord *record = [self.breathrates objectAtIndex:idx];
+    double val = record.breathRate;
+    if(fieldEnum == CPTScatterPlotFieldX)
+    {
+        double x = record.timestamp - (double)record.sessionid - 60.0;
+        printf("%f\n", record.timestamp);
+        return [NSNumber numberWithDouble:x];
+    }
+    else
+    {
+        //printf("%f\n", val);
+        if(plot.identifier == @"Main Plot")
+        { return [NSNumber numberWithDouble:val]; }
+        else
+        { return [NSNumber numberWithDouble:0]; }
+    }
+}
+ */
 
 # pragma mark - ViewController Life Cycle
 
