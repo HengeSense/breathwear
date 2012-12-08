@@ -23,7 +23,7 @@ static const char *GET_RATE_RECORDS_QUERY = "SELECT sessionid, breathrate, times
 static const char *GET_RATE_RECORDS_FOR_SESSION_QUERY = "SELECT sessionid, breathrate, timestamp, sensor_value, baseline FROM breathrate WHERE sessionid = ? ORDER BY sessionid, timestamp ASC";
 static const char *GET_RATE_RECORDS_AFTER_QUERY = "SELECT sessionid, breathrate, timestamp, sensor_value, baseline FROM breathrate WHERE timestamp > ? ORDER BY sessionid, timestamp ASC";
 static const char *DELETE_RECORDS = "DELETE FROM breathrate";
-static const char *GET_COUNT_RATE_RECORDS_BETWEEN_QUERY = "SELECT count(breathrate) FROM breathrate WHERE timestamp > ? AND timestamp < ?";
+static const char *GET_COUNT_RATE_RECORDS_BETWEEN_QUERY = "SELECT count(breathrate) FROM breathrate WHERE timestamp > ? AND timestamp < ? ORDER BY sessionid, timestamp ASC";
 static const char *GET_RATES_BETWEEN_QUERY = "SELECT breathrate FROM breathrate WHERE timestamp > ? AND timestamp < ? ORDER BY timestamp ASC";
 
 #pragma mark STATIC PROCEDURES
@@ -76,7 +76,7 @@ static BreathWearRecord *getRateFromStatement(sqlite3_stmt *sql_stmt)
 
     int sessionid = getIntColumn(sql_stmt, 0);
     double breathRate = getDoubleColumn(sql_stmt, 1);
-    int timestamp = getIntColumn(sql_stmt, 2);
+    double timestamp = getDoubleColumn(sql_stmt, 2);
     unsigned char sensor_value = (unsigned int) getIntColumn(sql_stmt, 3);
     float baseline = getFloatColumn(sql_stmt, 4);
     BreathWearRecord *record = [[BreathWearRecord alloc] initWithRate:breathRate 
@@ -122,7 +122,7 @@ static BreathWearDatabase *_database_ = nil;
             NSString *srcFilePath = [resourcesDir stringByAppendingPathComponent:filename];
             NSError *err;
             if ([[NSFileManager defaultManager] copyItemAtPath:srcFilePath toPath:dbFilePath error:&err] == NO) {
-                NSLog(@"Error copying db file: %@", err);
+                //NSLog(@"Error copying db file: %@", err);
             }
         }
         
@@ -130,11 +130,12 @@ static BreathWearDatabase *_database_ = nil;
         
 		const char *c_file_path = [dbFilePath cStringUsingEncoding:NSASCIIStringEncoding];
 		int rc = sqlite3_open(c_file_path, &db);
-		if (rc) 
-			NSLog(@"Error opening database file %@: %s", dbFilePath, sqlite3_errmsg(db));
-		else 
-			NSLog(@"Opened data base file = %@", dbFilePath);
-	}
+		if (rc) {
+			//NSLog(@"Error opening database file %@: %s", dbFilePath, sqlite3_errmsg(db));
+		} else {
+			//NSLog(@"Opened data base file = %@", dbFilePath);
+        }
+    }
     
 	return self;
 }
@@ -268,28 +269,30 @@ static BreathWearDatabase *_database_ = nil;
     
 }
 
-- (void)getBreathRateBetween:(float)start and:(float)end in:(float *)data length:(int)length
+- (NSArray *)getBreathRateBetween:(float)start and:(float)end
 {
     sqlite3_stmt *sql_stmt;
     if (sqlite3_prepare_v2(db, GET_RATES_BETWEEN_QUERY, -1, &sql_stmt, NULL) != SQLITE_OK) {
 		NSLog(@"Error preparing SQL: %s", sqlite3_errmsg(db));
-		return;
+		return nil;
 	}
     
     sqlite3_bind_double(sql_stmt, 1, start);
     sqlite3_bind_double(sql_stmt, 2, end);
-
-    int i = 0;
+    
+    NSMutableArray *records = [[NSMutableArray alloc] init];
 	int success;
-	while ((success = sqlite3_step(sql_stmt)) && i < length) {
+	while ((success = sqlite3_step(sql_stmt))) {
 		if (success == SQLITE_ROW) {
-            data[i++] = getFloatColumn(sql_stmt, 0);
+			BreathWearRecord *record = getRateFromStatement(sql_stmt);
+            [records addObject:record];
 		} else if (success == SQLITE_DONE) {
 			break;
 		}
 	}
     
-    return;  
+	sqlite3_finalize(sql_stmt);
+    return records;
 
 }
 

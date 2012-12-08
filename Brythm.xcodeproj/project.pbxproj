@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6B2CF0B91672B5F600F78E0E /* bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B2CF0B81672B5F600F78E0E /* bg.png */; };
+		6B2CF0BC1672B9A600F78E0E /* HistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2CF0BB1672B9A600F78E0E /* HistoryViewController.m */; };
 		6B586C131668802E002207BF /* BreathWearIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B586C121668802E002207BF /* BreathWearIcon.png */; };
 		6BA5877B166EC3EC004A11DE /* libCorePlot-CocoaTouch.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BA58778166EC3A1004A11DE /* libCorePlot-CocoaTouch.a */; };
 		6BA5877D166EC4C1004A11DE /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BA5877C166EC4C1004A11DE /* QuartzCore.framework */; };
@@ -57,6 +59,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6B2CF0B81672B5F600F78E0E /* bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bg.png; path = Images/bg.png; sourceTree = "<group>"; };
+		6B2CF0BA1672B9A600F78E0E /* HistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryViewController.h; sourceTree = "<group>"; };
+		6B2CF0BB1672B9A600F78E0E /* HistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryViewController.m; sourceTree = "<group>"; };
 		6B586C121668802E002207BF /* BreathWearIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BreathWearIcon.png; path = Images/BreathWearIcon.png; sourceTree = "<group>"; };
 		6BA5876E166EC3A1004A11DE /* CorePlot-CocoaTouch.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "CorePlot-CocoaTouch.xcodeproj"; path = "Brythm/Frameworks/CorePlot_1.1/Source/framework/CorePlot-CocoaTouch.xcodeproj"; sourceTree = "<group>"; };
 		6BA5877C166EC4C1004A11DE /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -166,6 +171,8 @@
 				6BAA3A8E166812420060DFCF /* AppDelegate.m */,
 				6BA5877E166EC4F6004A11DE /* BrythmViewController.h */,
 				6BA5877F166EC4F6004A11DE /* BrythmViewController.m */,
+				6B2CF0BA1672B9A600F78E0E /* HistoryViewController.h */,
+				6B2CF0BB1672B9A600F78E0E /* HistoryViewController.m */,
 				6BAA3A96166812430060DFCF /* MainStoryboard.storyboard */,
 				6BAA3B28166877320060DFCF /* Database */,
 				6BAA3B211668771A0060DFCF /* Exercise */,
@@ -230,6 +237,7 @@
 		6BAA3B501668780B0060DFCF /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				6B2CF0B81672B5F600F78E0E /* bg.png */,
 				6BAA3B4E166878020060DFCF /* smiley.png */,
 				6B586C121668802E002207BF /* BreathWearIcon.png */,
 			);
@@ -316,6 +324,7 @@
 				6BAA3B45166877AF0060DFCF /* ExerciseViewController.xib in Resources */,
 				6BAA3B4F166878020060DFCF /* smiley.png in Resources */,
 				6B586C131668802E002207BF /* BreathWearIcon.png in Resources */,
+				6B2CF0B91672B5F600F78E0E /* bg.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -339,6 +348,7 @@
 				6BAA3B4B166877B70060DFCF /* BreathWearRecord.m in Sources */,
 				6BAA3B5C16687A0A0060DFCF /* MainExerciseViewController.m in Sources */,
 				6BA58780166EC4F6004A11DE /* BrythmViewController.m in Sources */,
+				6B2CF0BC1672B9A600F78E0E /* HistoryViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

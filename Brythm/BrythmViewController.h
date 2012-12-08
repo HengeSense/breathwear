@@ -7,8 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "CorePlot-CocoaTouch.h"
 
-@interface BrythmViewController : UIViewController <CPTPlotDataSource>
+@interface BrythmViewController : UIViewController
 
 @end

@@ -28,7 +28,7 @@
 - (NSArray *)getRecords;
 - (NSArray *)getRecordsAfter:(float)timestamp;
 - (int)countRecordsBetween:(float)start and:(float)end;
-- (void)getBreathRateBetween:(float)start and:(float)end in:(float *)data length:(int)length;
+- (NSArray *)getBreathRateBetween:(float)start and:(float)end;
 - (void)deleteRecords;
 
 - (NSArray *)getRecordsArrayAfter:(float)timestamp;
