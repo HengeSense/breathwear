@@ -33,6 +33,12 @@ NSString *kBaselinePlotID = @"Baseline Plot";
 @property (nonatomic, weak) CPTXYGraph *graph;
 @property (nonatomic, weak) NSTimer *dataTimer;
 
+@property (nonatomic, strong) NSMutableArray *InsightsXvalue;
+@property (nonatomic, strong) NSMutableArray *InsightsYvalue;
+
+// peaks
+@property (nonatomic, strong) NSMutableArray *AllLocalPeaks; // record
+
 @end
 
 
@@ -46,6 +52,10 @@ NSString *kBaselinePlotID = @"Baseline Plot";
 
 @synthesize graph = _graph;
 @synthesize dataTimer = _dataTimer;
+
+@synthesize AllLocalPeaks = _AllLocalPeaks;
+@synthesize InsightsXvalue = _InsightsXvalue;
+@synthesize InsightsYvalue = _InsightsYvalue;
 
 # pragma mark - Lazy Instantiation!
 
@@ -70,6 +80,13 @@ NSString *kBaselinePlotID = @"Baseline Plot";
     return _plotData;
 }
 
+- (NSMutableArray *)AllLocalPeaks
+{
+    if (!_AllLocalPeaks)
+        _AllLocalPeaks = [[NSMutableArray alloc] init];
+    return _AllLocalPeaks;
+}
+
 /*
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -90,6 +107,32 @@ NSString *kBaselinePlotID = @"Baseline Plot";
             [breathratesTemp addObject:[self.breathrates objectAtIndex:i]];
     }
     self.breathrates = [breathratesTemp copy];
+}
+
+- (void)findAllLocalPeaks
+{
+    for (int i = 1; i < self.breathrates.count-1; i++) {
+        // Positive peaks
+        BreathWearRecord *current = [self.breathrates objectAtIndex:i];
+        BreathWearRecord *prev = [self.breathrates objectAtIndex:i-1];
+        BreathWearRecord *next = [self.breathrates objectAtIndex:i+1];
+        
+        if (current.breathRate >= prev.breathRate && current.breathRate >= next.breathRate) {
+            // we have a local max
+            [self.AllLocalPeaks addObject:current];
+        }
+    }
+}
+
+- (void)findImportantLocalPeaks
+{
+    //self.localPeaks.
+    //self.globalPeaks = 0;
+}
+
+- (void)findInterestingPoints // insights
+{
+    
 }
 
 # pragma mark - CPTPlotDataSource Methods
