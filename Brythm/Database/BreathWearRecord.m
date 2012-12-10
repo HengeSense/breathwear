@@ -17,7 +17,7 @@
 @synthesize baselineRate;
 
 
-- (id)initWithRate:(float)rate time:(double)time session:(int)session sensor:(int)sensor baseline:(float)baseline
+- (id)initWithRate:(double)rate time:(double)time session:(int)session sensor:(int)sensor baseline:(float)baseline
 {
     if (self = [super init]) {
         breathRate = rate;

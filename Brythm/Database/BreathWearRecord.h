@@ -17,7 +17,7 @@
     double timestamp;
 
     // Instantaneous breath rate reported by BreathRate class
-    float breathRate;
+    double breathRate;
 
     // Raw sensor value
     int sensorValue;
@@ -28,10 +28,10 @@
 
 @property (readwrite) int sessionid;
 @property (readwrite) double timestamp;
-@property (readwrite) float breathRate;
+@property (readwrite) double breathRate;
 @property (readwrite) int sensorValue;
 @property (readwrite) float baselineRate;
 
-- (id)initWithRate:(float)rate time:(double)time session:(int)session sensor:(int)sensor baseline:(float)baseline;
+- (id)initWithRate:(double)rate time:(double)time session:(int)session sensor:(int)sensor baseline:(float)baseline;
 
 @end

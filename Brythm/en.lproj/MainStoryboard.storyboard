@@ -13,35 +13,6 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="bg.png" translatesAutoresizingMaskIntoConstraints="NO" id="Rf2-Fz-0ay"/>
-                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="s70-NQ-dCm">
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="216" id="Ryo-LW-omw"/>
-                                </constraints>
-                                <date key="date" timeIntervalSinceReferenceDate="376617828.95996398">
-                                    <!--2012-12-08 00:03:48 +0000-->
-                                </date>
-                                <timeZone key="timeZone" name="America/Los_Angeles">
-                                    <mutableData key="data">
-VFppZgAAAAAAAAAAAAAAAAAAAAAAAAAEAAAABAAAAAAAAAC5AAAABAAAABCepkign7sVkKCGKqChmveQ
-y4kaoNIj9HDSYSYQ1v50INiArZDa/tGg28CQENzes6DdqayQ3r6VoN+JjpDgnneg4WlwkOJ+WaDjSVKQ
-5F47oOUpNJDmR1gg5xJREOgnOiDo8jMQ6gccIOrSFRDr5v4g7LH3EO3G4CDukdkQ76/8oPBxuxDxj96g
-8n/BkPNvwKD0X6OQ9U+ioPY/hZD3L4Sg+CiiEPkPZqD6CIQQ+viDIPvoZhD82GUg/chIEP64RyD/qCoQ
-AJgpIAGIDBACeAsgA3EokARhJ6AFUQqQBkEJoAcw7JAHjUOgCRDOkAmtvyAK8LCQC+CvoAzZzRANwJGg
-DrmvEA+priAQmZEQEYmQIBJ5cxATaXIgFFlVEBVJVCAWOTcQFyk2IBgiU5AZCRggGgI1kBryNKAb4heQ
-HNIWoB3B+ZAesfigH6HbkCB2KyAhgb2QIlYNICNq2hAkNe8gJUq8ECYV0SAnKp4QJ/7toCkKgBAp3s+g
-KupiECu+saAs036QLZ6ToC6zYJAvfnWgMJNCkDFnkiAycySQM0d0IDRTBpA1J1YgNjLokDcHOCA4HAUQ
-OOcaIDn75xA6xvwgO9vJEDywGKA9u6sQPo/6oD+bjRBAb9ygQYSpkEJPvqBDZIuQRC+goEVEbZBF89Mg
-Ry2KEEfTtSBJDWwQSbOXIErtThBLnLOgTNZqkE18laBOtkyQT1x3oFCWLpBRPFmgUnYQkFMcO6BUVfKQ
-VPwdoFY11JBW5TogWB7xEFjFHCBZ/tMQWqT+IFvetRBchOAgXb6XEF5kwiBfnnkQYE3eoGGHlZBiLcCg
-Y2d3kGQNoqBlR1mQZe2EoGcnO5BnzWagaQcdkGmtSKBq5v+Qa5ZlIGzQHBBtdkcgbq/+EG9WKSBwj+AQ
-cTYLIHJvwhBzFe0gdE+kEHT/CaB2OMCQdt7roHgYopB4vs2gefiEkHqer6B72GaQfH6RoH24SJB+XnOg
-f5gqkAABAAECAwEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEA
-AQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEA
-AQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEA
-AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
-</mutableData>
-                                </timeZone>
-                            </datePicker>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="brH-Wk-Bb8">
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="Graph!">
@@ -58,14 +29,11 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="s70-NQ-dCm" firstAttribute="leading" secondItem="CRF-RH-BzC" secondAttribute="leading" type="default" id="31o-gN-1rr"/>
                             <constraint firstItem="Rf2-Fz-0ay" firstAttribute="leading" secondItem="CRF-RH-BzC" secondAttribute="leading" type="default" id="3zW-Vb-pCt"/>
-                            <constraint firstItem="brH-Wk-Bb8" firstAttribute="centerX" secondItem="s70-NQ-dCm" secondAttribute="centerX" type="default" id="Vh1-3Q-Ikq"/>
-                            <constraint firstItem="s70-NQ-dCm" firstAttribute="trailing" secondItem="CRF-RH-BzC" secondAttribute="trailing" type="default" id="d8T-CE-dkt"/>
+                            <constraint firstItem="brH-Wk-Bb8" firstAttribute="centerX" secondItem="Rf2-Fz-0ay" secondAttribute="centerX" type="default" id="7kc-Jc-9lS"/>
                             <constraint firstItem="Rf2-Fz-0ay" firstAttribute="bottom" secondItem="CRF-RH-BzC" secondAttribute="bottom" type="default" id="ea2-fG-Rpm"/>
                             <constraint firstItem="Rf2-Fz-0ay" firstAttribute="trailing" secondItem="CRF-RH-BzC" secondAttribute="trailing" type="default" id="ejT-Y5-ixg"/>
-                            <constraint firstItem="s70-NQ-dCm" firstAttribute="bottom" secondItem="CRF-RH-BzC" secondAttribute="bottom" type="default" id="hAT-Qc-aCU"/>
-                            <constraint firstItem="brH-Wk-Bb8" firstAttribute="top" secondItem="CRF-RH-BzC" secondAttribute="top" constant="72" id="p2w-ze-Ko9"/>
+                            <constraint firstItem="brH-Wk-Bb8" firstAttribute="top" secondItem="CRF-RH-BzC" secondAttribute="top" constant="230" id="fAc-mV-a01"/>
                             <constraint firstItem="Rf2-Fz-0ay" firstAttribute="top" secondItem="CRF-RH-BzC" secondAttribute="top" type="default" id="xD3-mU-NVf"/>
                         </constraints>
                     </view>
