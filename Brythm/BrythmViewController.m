@@ -8,14 +8,15 @@
 
 #import "BrythmViewController.h"
 #import "HistoryViewController.h"
+#define CENTER 1328392510
 
 
 @interface BrythmViewController ()
 
-@property (nonatomic, strong) NSString *startDate;
-@property (nonatomic, strong) NSString *endDate;
+@property (nonatomic, strong) NSDate *startDate;
+@property (nonatomic, strong) NSDate *endDate;
 @property (nonatomic) int currentSelectedCell;
-@property (nonatomic, strong) NSMutableArray *timewas;
+@property (nonatomic) int previousSelectedCell;
 
 @end
 
@@ -24,7 +25,7 @@
 @synthesize datePicker = _datePicker;
 @synthesize tableView = _tableView;
 @synthesize currentSelectedCell = _currentSelectedCell;
-
+@synthesize previousSelectedCell = _previousSelectedCell;
 /*
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -70,6 +71,8 @@
 {
     HistoryViewController *hvc = (HistoryViewController *)segue.destinationViewController;
     // pass user-chosen data to HistoryViewController
+    hvc.startTime = [self.startDate timeIntervalSince1970];
+    hvc.endTime = [self.endDate timeIntervalSince1970];
 }
 
 # pragma mark - ViewController Life Cycle
@@ -79,31 +82,50 @@
 	self.tableView.dataSource = self;
     self.tableView.delegate = self;
     self.currentSelectedCell = 0;
+    self.previousSelectedCell = 0;
 	//Use NSDateFormatter to write out the date in a friendly format
 	NSDateFormatter *df = [[NSDateFormatter alloc] init];
 	[df setTimeStyle:NSDateFormatterShortStyle];
     [df setDateStyle:NSDateFormatterMediumStyle];
-	self.startDate = [NSString stringWithFormat:@"%@",
-                  [df stringFromDate:[NSDate date]]];
 	
+    self.startDate = [NSDate dateWithTimeIntervalSince1970:CENTER];
 	// Initialization code
-	self.datePicker.date = [NSDate date];
+	
+    self.datePicker.date = [NSDate dateWithTimeIntervalSince1970:CENTER];
 	[self.datePicker addTarget:self
                    action:@selector(changeDateInLabel:)
          forControlEvents:UIControlEventValueChanged];
 }
 
+- (BOOL)checkDatesRange
+{
+    BOOL okay = NO;
+    
+    if ([self.startDate compare:self.endDate] == NSOrderedAscending) {
+        NSLog(@"date1 is earlier than date2");
+        okay = YES;
+    }
+    
+    if (okay == NO) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"End time must be greater than Start time" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+    }
+    return okay;
+}
+
 - (void)changeDateInLabel:(id)sender{
 	//Use NSDateFormatter to write out the date in a friendly format
+    
 	NSDateFormatter *df = [[NSDateFormatter alloc] init];
 	[df setTimeStyle:NSDateFormatterShortStyle];
     [df setDateStyle:NSDateFormatterMediumStyle];
+    if (self.currentSelectedCell == 2) {
+        self.currentSelectedCell = self.previousSelectedCell;
+    }
     if (self.currentSelectedCell == 0) {
-        self.startDate = [NSString stringWithFormat:@"%@",
-                          [df stringFromDate:self.datePicker.date]];
-    } else if (self.currentSelectedCell == 1) {
-        self.endDate = [NSString stringWithFormat:@"%@",
-                          [df stringFromDate:self.datePicker.date]];
+        self.startDate = self.datePicker.date;
+    } else if (self.currentSelectedCell == 1){
+        self.endDate = self.datePicker.date;
     }
     NSLog(@"Start date %@", self.startDate);
     [self.tableView reloadData];
@@ -119,10 +141,36 @@
 # pragma mark - Table View Delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    //[NSDateFormatter setDefaultFormatterBehavior:NSDateFormatterBehaviorDefault];
+    //[dateFormatter setDateFormat:@"EEE, MMM dd yyyy HH:mm ZZ"];
+    [dateFormatter setDateFormat:@"MMM dd',' yyyy',' h:mm ZZ"];
+    //[dateFormatter setDateFormat:@"dd-MM-yyyy"];
+    //[dateFormatter setDateFormat:@"dd-MM-yyyy"];
+    NSLocale *loc = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US"];
+    [dateFormatter setLocale:loc];
+    //[dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+    self.previousSelectedCell = self.currentSelectedCell;
     self.currentSelectedCell = indexPath.row;
-    
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    if (indexPath.row == 0) {
+        //self.datePicker.date = [dateFormatter dateFromString:@"01-02-2010"];
+        //self.datePicker.date = [dateFormatter dateFromString:self.startDate];
+        //self.datePicker.date = [dateFormatter dateFromString:@"Dec 23, 2012, 11:23 PM"];
+    }
     if (indexPath.row == 1) {
         // end
+        if (self.endDate) {
+            //[self.datePicker setDate:[dateFormatter dateFromString:self.endDate]];
+        } else {
+            // add one more hour to the start date
+            /// NSDate *startDate = [dateFormatter dateFromString:self.startDate];
+            //NSLog(@"date from string: %@", [startDate description]);
+            //NSDate *endDate = (NSDate *)[NSDate dateWithTimeInterval:3600.0 sinceDate:[NSDate date]];
+            //[self.datePicker setDate:[dateFormatter dateFromString:[endDate description]]];
+            //[self.datePicker setDate:endDate];
+
+        }
     }
     // Navigation logic may go here. Create and push another view controller.
     if (indexPath.row == 2) {
@@ -130,8 +178,26 @@
         // ...
         // Pass the selected object to the new view controller.
         //[self.navigationController pushViewController:detailViewController animated:YES];
-        [self performSegueWithIdentifier:@"graph" sender:self];
+        if ([self checkBeforeSegue]) {
+            [self performSegueWithIdentifier:@"graph" sender:self];
+        }
     }
+}
+
+- (BOOL)checkBeforeSegue
+{
+    if (self.endDate == nil) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"You forgot to choose an End Time" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+        return NO;
+    }
+    if (self.startDate == nil)  {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"You forgot to choose a Start Time" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+        return NO;
+    }
+    // Make sure the Date range makes sense
+    return [self checkDatesRange];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -154,18 +220,21 @@
         
     }
     // Configure the cell...
+    NSDateFormatter *df = [[NSDateFormatter alloc] init];
+	[df setTimeStyle:NSDateFormatterShortStyle];
+    [df setDateStyle:NSDateFormatterMediumStyle];
     
     if (indexPath.row == 0) {
         // start
         cell.textLabel.text = @"Starts";
-        cell.detailTextLabel.text = self.startDate;
+        cell.detailTextLabel.text = [df stringFromDate:self.startDate];
         if (self.currentSelectedCell == 0) {
             cell.selectionStyle = UITableViewCellSelectionStyleBlue;
         }
     } else if (indexPath.row == 1) {
         // end
         cell.textLabel.text = @"Ends";
-        cell.detailTextLabel.text = self.endDate;
+        cell.detailTextLabel.text = [df stringFromDate:self.endDate];
         if (self.currentSelectedCell == 0) {
             cell.selectionStyle = UITableViewCellSelectionStyleBlue;
         }
@@ -174,6 +243,7 @@
         // graph
         cell.textLabel.text = @"Graph";
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     
     return cell;
