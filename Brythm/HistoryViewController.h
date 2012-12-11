@@ -11,4 +11,8 @@
 
 @interface HistoryViewController : UIViewController <CPTPlotDataSource>
 
+@property (nonatomic) int startTime;
+@property (nonatomic) int endTime;
+@property (nonatomic) int windowIntervalLength; // in seconds
+
 @end

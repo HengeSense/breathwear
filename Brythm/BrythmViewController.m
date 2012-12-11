@@ -7,6 +7,7 @@
 //
 
 #import "BrythmViewController.h"
+#import "HistoryViewController.h"
 
 
 @interface BrythmViewController ()
@@ -54,6 +55,14 @@
     }
 }
  */
+
+# pragma mark - Segue
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    HistoryViewController *hvc = (HistoryViewController *)segue.destinationViewController;
+    // pass user-chosen data to HistoryViewController
+}
 
 # pragma mark - ViewController Life Cycle
 

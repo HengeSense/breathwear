@@ -30,10 +30,10 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="Rf2-Fz-0ay" firstAttribute="leading" secondItem="CRF-RH-BzC" secondAttribute="leading" type="default" id="3zW-Vb-pCt"/>
-                            <constraint firstItem="brH-Wk-Bb8" firstAttribute="centerX" secondItem="Rf2-Fz-0ay" secondAttribute="centerX" type="default" id="7kc-Jc-9lS"/>
                             <constraint firstItem="Rf2-Fz-0ay" firstAttribute="bottom" secondItem="CRF-RH-BzC" secondAttribute="bottom" type="default" id="ea2-fG-Rpm"/>
                             <constraint firstItem="Rf2-Fz-0ay" firstAttribute="trailing" secondItem="CRF-RH-BzC" secondAttribute="trailing" type="default" id="ejT-Y5-ixg"/>
-                            <constraint firstItem="brH-Wk-Bb8" firstAttribute="top" secondItem="CRF-RH-BzC" secondAttribute="top" constant="230" id="fAc-mV-a01"/>
+                            <constraint firstItem="brH-Wk-Bb8" firstAttribute="leading" secondItem="CRF-RH-BzC" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="ptv-WS-FiK"/>
+                            <constraint firstItem="brH-Wk-Bb8" firstAttribute="top" secondItem="CRF-RH-BzC" secondAttribute="top" constant="20" symbolic="YES" type="default" id="teC-RN-1hF"/>
                             <constraint firstItem="Rf2-Fz-0ay" firstAttribute="top" secondItem="CRF-RH-BzC" secondAttribute="top" type="default" id="xD3-mU-NVf"/>
                         </constraints>
                     </view>
