@@ -13,7 +13,7 @@
 #define DEFAULT_SESSION_ID 1328075662
 
 #define FRAME_RATE 24.0
-#define SEC_PER_PLOT 60
+#define SEC_PER_PLOT 600
 #define MAX_BREATH_RATE 20
 
 #define DATA_DOWNSAMPLE_FACTOR 10
@@ -29,16 +29,16 @@ NSString *kBaselinePlotID = @"Baseline Plot";
 @property (nonatomic, strong) NSMutableArray *plotData;
 @property (nonatomic) int currentIndex;
 @property (nonatomic) int sessionid;
-@property (nonatomic) double initialTime;
+@property (nonatomic) double dataDelay;
 
 @property (nonatomic, weak) CPTXYGraph *graph;
 @property (nonatomic, weak) NSTimer *dataTimer;
 
-@property (nonatomic, strong) NSMutableArray *InsightsXvalue;
-@property (nonatomic, strong) NSMutableArray *InsightsYvalue;
+//@property (nonatomic, strong) NSMutableArray *InsightsXvalue;
+//@property (nonatomic, strong) NSMutableArray *InsightsYvalue;
 
 // peaks
-@property (nonatomic, strong) NSMutableArray *AllLocalPeaks; // record
+//@property (nonatomic, strong) NSMutableArray *AllLocalPeaks; // record
 @property (nonatomic, weak) NSTimer *delayTimer;
 @property (nonatomic, weak) NSTimer *resumeTimer;
 
@@ -55,14 +55,14 @@ NSString *kBaselinePlotID = @"Baseline Plot";
 @synthesize plotData = _plotData;
 @synthesize currentIndex = _currentIndex;
 @synthesize sessionid = _sessionid;
-@synthesize initialTime = _initialTime;
+@synthesize dataDelay = _dataDelay;
 
 @synthesize graph = _graph;
 @synthesize dataTimer = _dataTimer;
 
-@synthesize AllLocalPeaks = _AllLocalPeaks;
-@synthesize InsightsXvalue = _InsightsXvalue;
-@synthesize InsightsYvalue = _InsightsYvalue;
+//@synthesize AllLocalPeaks = _AllLocalPeaks;
+//@synthesize InsightsXvalue = _InsightsXvalue;
+//@synthesize InsightsYvalue = _InsightsYvalue;
 
 # pragma mark - Lazy Instantiation!
 
@@ -87,13 +87,6 @@ NSString *kBaselinePlotID = @"Baseline Plot";
     return _plotData;
 }
 
-- (NSMutableArray *)AllLocalPeaks
-{
-    if (!_AllLocalPeaks)
-        _AllLocalPeaks = [[NSMutableArray alloc] init];
-    return _AllLocalPeaks;
-}
-
 /*
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -107,6 +100,10 @@ NSString *kBaselinePlotID = @"Baseline Plot";
 
 - (void)preprocess
 {
+    // Determine delay in recorded data
+    BreathWearRecord *firstRecord = [self.breathrates objectAtIndex:0];
+    self.dataDelay = firstRecord.timestamp - firstRecord.sessionid;
+    
     // Downsample by DOWN_SAMPLE_FACTOR
     self.breathrates = [self.db getRecordsForSession:DEFAULT_SESSION_ID];
     NSMutableArray *breathratesTemp = [[NSMutableArray alloc] initWithCapacity:self.breathrates.count/DATA_DOWNSAMPLE_FACTOR];
@@ -129,6 +126,7 @@ NSString *kBaselinePlotID = @"Baseline Plot";
     self.breathrates = [breathratesTemp copy];
 }
 
+/* OLD PRE-PROCESSING STEP TO FIND INSIGHTS
 - (void)findAllLocalPeaks
 {
     for (int i = 1; i < self.breathrates.count-1; i++) {
@@ -154,6 +152,7 @@ NSString *kBaselinePlotID = @"Baseline Plot";
 {
     
 }
+*/
 
 # pragma mark - CPTPlotDataSource Methods
 
@@ -167,7 +166,7 @@ NSString *kBaselinePlotID = @"Baseline Plot";
     BreathWearRecord *record = [self.plotData objectAtIndex:idx];
     double val = record.breathRate;
     if (fieldEnum == CPTScatterPlotFieldX) {
-        return [NSNumber numberWithDouble:(record.timestamp - record.sessionid - 64)];
+        return [NSNumber numberWithDouble:(record.timestamp - record.sessionid - self.dataDelay)];
     } else {
         if(plot.identifier == kDataPlotID)
             return [NSNumber numberWithDouble:val];
@@ -182,6 +181,7 @@ NSString *kBaselinePlotID = @"Baseline Plot";
 
 - (void)startDataTimer:(NSTimer *)timer
 {
+    self.graph.defaultPlotSpace.allowsUserInteraction = YES;
     self.dataTimer = [NSTimer scheduledTimerWithTimeInterval:1.0/FRAME_RATE
                                                       target:self
                                                     selector:@selector(newData:)
@@ -192,10 +192,11 @@ NSString *kBaselinePlotID = @"Baseline Plot";
 - (void)focusOnInsight:(NSTimer *)timer
 {
     [self.dataTimer invalidate];
+    self.graph.defaultPlotSpace.allowsUserInteraction = NO;
     
     // Do stuff to focus on the insight, zoom, flashy stuff
     
-    self.resumeTimer = [NSTimer scheduledTimerWithTimeInterval:3.0
+    self.resumeTimer = [NSTimer scheduledTimerWithTimeInterval:5.0
                                                         target:self
                                                       selector:@selector(startDataTimer:)
                                                       userInfo:nil
@@ -209,7 +210,7 @@ NSString *kBaselinePlotID = @"Baseline Plot";
     
     if (plot && baseline) {
         BreathWearRecord *record = [self.breathrates objectAtIndex:self.currentIndex];
-        double currTime = record.timestamp - record.sessionid - 64;
+        double currTime = (record.timestamp - record.sessionid - self.dataDelay);
         
         if (currTime >= SEC_PER_PLOT) {
             [self.plotData removeObjectAtIndex:0];
@@ -277,6 +278,9 @@ NSString *kBaselinePlotID = @"Baseline Plot";
     CPTMutableLineStyle *lineStyle = [CPTLineStyle lineStyle];
     lineStyle.lineColor = [[CPTColor blackColor] colorWithAlphaComponent:0.7];
     lineStyle.lineWidth = 2.0f;
+    CPTMutableLineStyle *majorGridLineStyle = [CPTLineStyle lineStyle];
+    majorGridLineStyle.lineWidth = 0.75f;
+    majorGridLineStyle.lineColor = [[CPTColor whiteColor] colorWithAlphaComponent:0.3];
     
     axisSet.xAxis.majorIntervalLength = CPTDecimalFromUnsignedInteger(1);
     axisSet.xAxis.minorTicksPerInterval = 0;
@@ -288,17 +292,38 @@ NSString *kBaselinePlotID = @"Baseline Plot";
     axisSet.xAxis.title = @"Time (seconds)";
     axisSet.xAxis.titleOffset = 25.0;
     axisSet.xAxis.labelingPolicy = CPTAxisLabelingPolicyAutomatic;
+    axisSet.xAxis.axisConstraints = [CPTConstraints constraintWithLowerOffset:0.0];
     
     axisSet.yAxis.majorIntervalLength = CPTDecimalFromUnsignedInteger(1);
     axisSet.yAxis.minorTicksPerInterval = 0;
     axisSet.yAxis.majorTickLineStyle = lineStyle;
     axisSet.yAxis.minorTickLineStyle = lineStyle;
     axisSet.yAxis.axisLineStyle = lineStyle;
+    axisSet.yAxis.majorGridLineStyle = majorGridLineStyle;
     axisSet.yAxis.minorTickLength = 5.0f;
     axisSet.yAxis.majorTickLength = 7.0f;
-    axisSet.yAxis.title = @"Breath Rate (bpm)";
-    axisSet.yAxis.titleOffset = 35.0;
-    axisSet.yAxis.labelingPolicy = CPTAxisLabelingPolicyAutomatic;
+    axisSet.yAxis.labelingPolicy = CPTAxisLabelingPolicyNone;
+    double baseline = ((BreathWearRecord *)[self.breathrates objectAtIndex:0]).baselineRate;
+    NSSet *majorTickLocations = [NSSet setWithObjects:
+                                 [NSDecimalNumber numberWithDouble:baseline - 5.0],
+                                 [NSDecimalNumber numberWithDouble:baseline],
+                                 [NSDecimalNumber numberWithDouble:baseline + 5.0],
+                                 nil];
+    axisSet.yAxis.majorTickLocations = majorTickLocations;
+    NSMutableSet *newAxisLabels = [NSMutableSet set];
+    CPTAxisLabel *newLabel2 = [[CPTAxisLabel alloc] initWithText:@"Calm" textStyle:axisSet.yAxis.labelTextStyle];
+    newLabel2.tickLocation = CPTDecimalFromDouble(baseline - 5.0);
+    newLabel2.offset = 2.0;
+    CPTAxisLabel *newLabel3 = [[CPTAxisLabel alloc] initWithText:@"Zen" textStyle:axisSet.yAxis.labelTextStyle];
+    newLabel3.tickLocation = CPTDecimalFromDouble(baseline);
+    newLabel3.offset = 2.0;
+    CPTAxisLabel *newLabel4 = [[CPTAxisLabel alloc] initWithText:@"Stress" textStyle:axisSet.yAxis.labelTextStyle];
+    newLabel4.tickLocation = CPTDecimalFromDouble(baseline + 5.0);
+    newLabel4.offset = 2.0;
+    [newAxisLabels addObject:newLabel2];
+    [newAxisLabels addObject:newLabel3];
+    [newAxisLabels addObject:newLabel4];
+    axisSet.yAxis.axisLabels = newAxisLabels;
     axisSet.yAxis.axisConstraints = [CPTConstraints constraintWithLowerOffset:0.0];
     
     CPTScatterPlot *plot = [[CPTScatterPlot alloc] init];
@@ -311,14 +336,22 @@ NSString *kBaselinePlotID = @"Baseline Plot";
     plot.dataSource = self;
     [self.graph addPlot:plot];
     
-    CPTScatterPlot *baseline = [[CPTScatterPlot alloc] init];
-    baseline.identifier = kBaselinePlotID;
+    // add area gradient below and above plot
+    CPTColor *areaColor = [CPTColor colorWithComponentRed:0.2 green:0.3 blue:1.0 alpha:0.7];
+    CPTGradient *areaGradient = [CPTGradient gradientWithBeginningColor:[CPTColor clearColor] endingColor:areaColor];
+    areaGradient.angle = -90.0;
+    CPTFill *areaGradientFill = [CPTFill fillWithGradient:areaGradient];
+    plot.areaFill      = areaGradientFill;
+    plot.areaBaseValue = CPTDecimalFromDouble(((BreathWearRecord *)[self.breathrates objectAtIndex:0]).baselineRate);
+    
+    CPTScatterPlot *baselinePlot = [[CPTScatterPlot alloc] init];
+    baselinePlot.identifier = kBaselinePlotID;
     CPTMutableLineStyle *dataLineStyle2 = [CPTLineStyle lineStyle];
-    dataLineStyle2.lineColor = [[CPTColor greenColor] colorWithAlphaComponent:0.5];
+    dataLineStyle2.lineColor = [[CPTColor whiteColor] colorWithAlphaComponent:0.5];
     dataLineStyle2.lineWidth = 3.0f;
-    baseline.dataLineStyle = dataLineStyle2;
-    baseline.dataSource = self;
-    [self.graph addPlot:baseline];
+    baselinePlot.dataLineStyle = dataLineStyle2;
+    baselinePlot.dataSource = self;
+    [self.graph addPlot:baselinePlot];
 }
 
 - (void)didReceiveMemoryWarning
