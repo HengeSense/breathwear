@@ -82,6 +82,8 @@
 		07B69B7112B62E9600F4C16C /* CPTMutableLineStyle.h in Headers */ = {isa = PBXBuildFile; fileRef = 07B69B6F12B62E9600F4C16C /* CPTMutableLineStyle.h */; settings = {ATTRIBUTES = (); }; };
 		07B69B7212B62E9600F4C16C /* CPTMutableLineStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 07B69B7012B62E9600F4C16C /* CPTMutableLineStyle.m */; };
 		07FCF2D4115B54DE00E46606 /* _CPTSlateTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = 07FCF2D2115B54DE00E46606 /* _CPTSlateTheme.m */; };
+		47F845811677563B00872E42 /* ElieViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 47F8457F1677563B00872E42 /* ElieViewController.h */; };
+		47F845821677563B00872E42 /* ElieViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 47F845801677563B00872E42 /* ElieViewController.m */; };
 		BC4FAF29100D7DF300811DD3 /* NSDecimalNumberExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = BC9B82B10FB89E610035D8DA /* NSDecimalNumberExtensions.h */; settings = {ATTRIBUTES = (); }; };
 		BC74A2C210FC087800E7E90D /* CPTPieChart.h in Headers */ = {isa = PBXBuildFile; fileRef = BC74A2C010FC087800E7E90D /* CPTPieChart.h */; settings = {ATTRIBUTES = (); }; };
 		BC74A2C310FC087800E7E90D /* CPTPieChart.m in Sources */ = {isa = PBXBuildFile; fileRef = BC74A2C110FC087800E7E90D /* CPTPieChart.m */; };
@@ -254,6 +256,8 @@
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		29B97316FDCFA39411CA2CEA /* main-cocoatouch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "main-cocoatouch.m"; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* CorePlot_CocoaTouch_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CorePlot_CocoaTouch_Prefix.pch; sourceTree = "<group>"; };
+		47F8457F1677563B00872E42 /* ElieViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ElieViewController.h; sourceTree = "<group>"; };
+		47F845801677563B00872E42 /* ElieViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ElieViewController.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info-CocoaTouch.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Info-CocoaTouch.plist"; sourceTree = "<group>"; };
 		BC74A2C010FC087800E7E90D /* CPTPieChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CPTPieChart.h; path = Source/CPTPieChart.h; sourceTree = "<group>"; };
 		BC74A2C110FC087800E7E90D /* CPTPieChart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CPTPieChart.m; path = Source/CPTPieChart.m; sourceTree = "<group>"; };
@@ -550,6 +554,8 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				47F8457F1677563B00872E42 /* ElieViewController.h */,
+				47F845801677563B00872E42 /* ElieViewController.m */,
 				BC9B82520FB89B420035D8DA /* Source */,
 				0789EFB70FB9F97F00C0A613 /* iPhone Specific */,
 				C3566B8610EED12700FB3866 /* Documentation */,
@@ -906,6 +912,7 @@
 				C3978E1013CE65C600A420D9 /* NSCoderExtensions.h in Headers */,
 				BC4FAF29100D7DF300811DD3 /* NSDecimalNumberExtensions.h in Headers */,
 				C3B623D3107EC97A0009EF0B /* NSNumberExtensions.h in Headers */,
+				47F845811677563B00872E42 /* ElieViewController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1074,6 +1081,7 @@
 				C349DCB1151AAFAB00BFD6A7 /* CPTCalendarFormatter.m in Sources */,
 				C3286C0815D8769800A436A8 /* _CPTMaskLayer.m in Sources */,
 				C3408C4715FC1CA8004F1D70 /* _CPTBorderLayer.m in Sources */,
+				47F845821677563B00872E42 /* ElieViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
