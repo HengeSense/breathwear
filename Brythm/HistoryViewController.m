@@ -18,8 +18,10 @@
 
 #define DATA_DOWNSAMPLE_FACTOR 10
 
-NSString *kDataPlotID = @"Data Plot";
-NSString *kBaselinePlotID = @"Baseline Plot";
+#define INSIGHT_PAUSE_TIME 3.0
+
+NSString *kDataPlotID = @"You";
+NSString *kBaselinePlotID = @"Your Goal";
 
 
 @interface HistoryViewController ()
@@ -181,7 +183,11 @@ NSString *kBaselinePlotID = @"Baseline Plot";
 
 - (void)startDataTimer:(NSTimer *)timer
 {
+    // restore interaction in case it was disabled by an insight event
     self.graph.defaultPlotSpace.allowsUserInteraction = YES;
+    // remove any previously posted annotations
+    [self.graph.plotAreaFrame.plotArea removeAllAnnotations];
+    // begin animation timer
     self.dataTimer = [NSTimer scheduledTimerWithTimeInterval:1.0/FRAME_RATE
                                                       target:self
                                                     selector:@selector(newData:)
@@ -192,11 +198,53 @@ NSString *kBaselinePlotID = @"Baseline Plot";
 - (void)focusOnInsight:(NSTimer *)timer
 {
     [self.dataTimer invalidate];
+    // pause interaction when focusing on insight
     self.graph.defaultPlotSpace.allowsUserInteraction = NO;
     
-    // Do stuff to focus on the insight, zoom, flashy stuff
+    // post an annotation around the insightful record
+    //BreathWearRecord *insight = [timer.userInfo objectForKey:@"record"];
+    CPTMutableTextStyle *textStyle = [CPTMutableTextStyle textStyle];
+    textStyle.color    = [[CPTColor greenColor] colorWithAlphaComponent:0.7];
+    textStyle.fontSize = 12.0;
+    textStyle.fontName = @"Helvetica-Bold";
     
-    self.resumeTimer = [NSTimer scheduledTimerWithTimeInterval:5.0
+    NSString *annText;
+    switch ([[timer.userInfo objectForKey:@"index"] integerValue]) {
+        case 200:
+            annText = @"Did the app stress you out? Sorry :)";
+            break;
+        case 310:
+            annText = @"Recovery!  What calmed you here?";
+            break;
+        case 450:
+            annText = @"Stressed again?  Maybe it was just something exciting!";
+            break;
+        case 550:
+            annText = @"Sure is a rollercoaster ride, huh?";
+            break;
+        case 750:
+            annText = @"Great job!  What were you doing during this calm period?";
+            break;
+        case 1000:
+            annText = @"Umm...you okay?  Ultimate calm!";
+            break;
+            
+        default:
+            break;
+    }
+    
+    CPTTextLayer *textLayer = [[CPTTextLayer alloc] initWithText:annText style:textStyle];
+    CPTLayerAnnotation *instructionsAnnotation = [[CPTLayerAnnotation alloc] initWithAnchorLayer:self.graph.plotAreaFrame.plotArea];
+    instructionsAnnotation.contentLayer       = textLayer;
+    instructionsAnnotation.rectAnchor         = CPTRectAnchorBottom;
+    instructionsAnnotation.contentAnchorPoint = CGPointMake(0.5, 0.0);
+    instructionsAnnotation.displacement       = CGPointMake(0.0, 10.0);
+    [self.graph.plotAreaFrame.plotArea addAnnotation:instructionsAnnotation];
+
+    
+    
+    // continue animation graph after a pause
+    self.resumeTimer = [NSTimer scheduledTimerWithTimeInterval:INSIGHT_PAUSE_TIME
                                                         target:self
                                                       selector:@selector(startDataTimer:)
                                                       userInfo:nil
@@ -212,26 +260,66 @@ NSString *kBaselinePlotID = @"Baseline Plot";
         BreathWearRecord *record = [self.breathrates objectAtIndex:self.currentIndex];
         double currTime = (record.timestamp - record.sessionid - self.dataDelay);
         
+        /*// delete old data points
         if (currTime >= SEC_PER_PLOT) {
             [self.plotData removeObjectAtIndex:0];
             [plot deleteDataInIndexRange:NSMakeRange(0, 1)];
             [baseline deleteDataInIndexRange:NSMakeRange(0, 1)];
-        }
+        }*/
         
+        // shift plotSpace to the right once the plot reaches the right edge of window
         CPTXYPlotSpace *plotSpace = (CPTXYPlotSpace *)self.graph.defaultPlotSpace;
         NSUInteger location = (currTime >= SEC_PER_PLOT ? (currTime - SEC_PER_PLOT) : 0);
         plotSpace.xRange = [CPTPlotRange plotRangeWithLocation:CPTDecimalFromUnsignedInteger(location)
                                                         length:CPTDecimalFromUnsignedInteger(SEC_PER_PLOT)];
         
+        // prototyping: pretend we have a list of indices in self.breathrates where
+        // insightful data shows up
+        NSMutableDictionary *userInfo = [[NSMutableDictionary alloc] init];
+        [userInfo setObject:[self.breathrates objectAtIndex:self.currentIndex] forKey:@"record"];
+        [userInfo setObject:[NSNumber numberWithInt:self.currentIndex] forKey:@"index"];
+        if (self.currentIndex == 200) {
+            self.delayTimer = [NSTimer scheduledTimerWithTimeInterval:24.0/FRAME_RATE
+                                                               target:self
+                                                             selector:@selector(focusOnInsight:)
+                                                             userInfo:userInfo
+                                                              repeats:NO];
+        } else if (self.currentIndex == 310) {
+            self.delayTimer = [NSTimer scheduledTimerWithTimeInterval:24.0/FRAME_RATE
+                                                               target:self
+                                                             selector:@selector(focusOnInsight:)
+                                                             userInfo:userInfo
+                                                              repeats:NO];
+        } else if (self.currentIndex == 450) {
+            self.delayTimer = [NSTimer scheduledTimerWithTimeInterval:24.0/FRAME_RATE
+                                                               target:self
+                                                             selector:@selector(focusOnInsight:)
+                                                             userInfo:userInfo
+                                                              repeats:NO];
+        } else if (self.currentIndex == 550) {
+            self.delayTimer = [NSTimer scheduledTimerWithTimeInterval:24.0/FRAME_RATE
+                                                               target:self
+                                                             selector:@selector(focusOnInsight:)
+                                                             userInfo:userInfo
+                                                              repeats:NO];
+        } else if (self.currentIndex == 750) {
+            self.delayTimer = [NSTimer scheduledTimerWithTimeInterval:24.0/FRAME_RATE
+                                                               target:self
+                                                             selector:@selector(focusOnInsight:)
+                                                             userInfo:userInfo
+                                                              repeats:NO];
+        } else if (self.currentIndex == 1000) {
+            self.delayTimer = [NSTimer scheduledTimerWithTimeInterval:24.0/FRAME_RATE
+                                                               target:self
+                                                             selector:@selector(focusOnInsight:)
+                                                             userInfo:userInfo
+                                                              repeats:NO];
+        }
+
         self.currentIndex += 1;
         if (self.currentIndex >= self.breathrates.count) {
             [self.dataTimer invalidate];
-        } else if (self.currentIndex == 100) {
-            self.delayTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
-                                                               target:self
-                                                             selector:@selector(focusOnInsight:)
-                                                             userInfo:nil
-                                                              repeats:NO];
+        // add next data point to plotData
         } else {
             [self.plotData addObject:[self.breathrates objectAtIndex:self.currentIndex]];
             [plot insertDataAtIndex:self.plotData.count-1 numberOfRecords:1];
@@ -249,9 +337,15 @@ NSString *kBaselinePlotID = @"Baseline Plot";
     // smooth out data and resample
     [self preprocess];
     
+    // get baseline
+    double baseline = ((BreathWearRecord *)[self.breathrates objectAtIndex:0]).baselineRate;
+    
+    // begin reading through self.breathrates data
     self.currentIndex = 0;
     [self startDataTimer:nil];
     
+    // tons of graph set-up //
+    //////////////////////////
     self.graph = [[CPTXYGraph alloc] initWithFrame:self.view.bounds];
     [self.graph applyTheme:[CPTTheme themeNamed:kCPTDarkGradientTheme]];
     
@@ -261,49 +355,56 @@ NSString *kBaselinePlotID = @"Baseline Plot";
     self.graph.paddingTop = 10.0;
     self.graph.paddingRight = 10.0;
     self.graph.paddingBottom = 10.0;
-    self.graph.plotAreaFrame.paddingLeft = 60.0;
-    self.graph.plotAreaFrame.paddingTop = 20.0;
+    self.graph.plotAreaFrame.paddingLeft = 50.0;
+    self.graph.plotAreaFrame.paddingTop = 35.0;
     self.graph.plotAreaFrame.paddingRight = 20.0;
     self.graph.plotAreaFrame.paddingBottom = 50.0;
     
     CPTXYPlotSpace *plotSpace = (CPTXYPlotSpace *)self.graph.defaultPlotSpace;
     plotSpace.xRange = [CPTPlotRange plotRangeWithLocation:CPTDecimalFromFloat(0)
                                                     length:CPTDecimalFromFloat(SEC_PER_PLOT)];
-    plotSpace.yRange = [CPTPlotRange plotRangeWithLocation:CPTDecimalFromFloat(0)
+    plotSpace.yRange = [CPTPlotRange plotRangeWithLocation:CPTDecimalFromFloat(baseline - baseline)
                                                     length:CPTDecimalFromFloat(MAX_BREATH_RATE)];
     plotSpace.allowsUserInteraction = YES;
     
+    // axes
     CPTXYAxisSet *axisSet = (CPTXYAxisSet *)self.graph.axisSet;
     
-    CPTMutableLineStyle *lineStyle = [CPTLineStyle lineStyle];
-    lineStyle.lineColor = [[CPTColor blackColor] colorWithAlphaComponent:0.7];
-    lineStyle.lineWidth = 2.0f;
+    CPTMutableLineStyle *axisLineStyle = [CPTLineStyle lineStyle];
+    axisLineStyle.lineColor = [[CPTColor blackColor] colorWithAlphaComponent:0.7];
+    axisLineStyle.lineWidth = 2.0f;
     CPTMutableLineStyle *majorGridLineStyle = [CPTLineStyle lineStyle];
     majorGridLineStyle.lineWidth = 0.75f;
     majorGridLineStyle.lineColor = [[CPTColor whiteColor] colorWithAlphaComponent:0.3];
     
     axisSet.xAxis.majorIntervalLength = CPTDecimalFromUnsignedInteger(1);
     axisSet.xAxis.minorTicksPerInterval = 0;
-    axisSet.xAxis.majorTickLineStyle = lineStyle;
-    axisSet.xAxis.minorTickLineStyle = lineStyle;
-    axisSet.xAxis.axisLineStyle = lineStyle;
+    axisSet.xAxis.majorTickLineStyle = axisLineStyle;
+    axisSet.xAxis.minorTickLineStyle = axisLineStyle;
+    axisSet.xAxis.axisLineStyle = axisLineStyle;
     axisSet.xAxis.minorTickLength = 5.0f;
     axisSet.xAxis.majorTickLength = 7.0f;
     axisSet.xAxis.title = @"Time (seconds)";
     axisSet.xAxis.titleOffset = 25.0;
     axisSet.xAxis.labelingPolicy = CPTAxisLabelingPolicyAutomatic;
     axisSet.xAxis.axisConstraints = [CPTConstraints constraintWithLowerOffset:0.0];
+    // add positive arrow to xAxis
+    CPTLineCap *lineCap = [CPTLineCap sweptArrowPlotLineCap];
+    lineCap.size = CGSizeMake(15.0, 15.0);
+    lineCap.lineStyle = axisLineStyle;
+    lineCap.fill = [CPTFill fillWithColor:lineCap.lineStyle.lineColor];
+    axisSet.xAxis.axisLineCapMax = lineCap;
     
     axisSet.yAxis.majorIntervalLength = CPTDecimalFromUnsignedInteger(1);
     axisSet.yAxis.minorTicksPerInterval = 0;
-    axisSet.yAxis.majorTickLineStyle = lineStyle;
-    axisSet.yAxis.minorTickLineStyle = lineStyle;
-    axisSet.yAxis.axisLineStyle = lineStyle;
+    axisSet.yAxis.majorTickLineStyle = axisLineStyle;
+    axisSet.yAxis.minorTickLineStyle = axisLineStyle;
+    axisSet.yAxis.axisLineStyle = axisLineStyle;
     axisSet.yAxis.majorGridLineStyle = majorGridLineStyle;
     axisSet.yAxis.minorTickLength = 5.0f;
     axisSet.yAxis.majorTickLength = 7.0f;
     axisSet.yAxis.labelingPolicy = CPTAxisLabelingPolicyNone;
-    double baseline = ((BreathWearRecord *)[self.breathrates objectAtIndex:0]).baselineRate;
+    // add custom labeling to yAxis
     NSSet *majorTickLocations = [NSSet setWithObjects:
                                  [NSDecimalNumber numberWithDouble:baseline - 5.0],
                                  [NSDecimalNumber numberWithDouble:baseline],
@@ -324,25 +425,27 @@ NSString *kBaselinePlotID = @"Baseline Plot";
     [newAxisLabels addObject:newLabel3];
     [newAxisLabels addObject:newLabel4];
     axisSet.yAxis.axisLabels = newAxisLabels;
+    // prevents yAxis from disappearing when animating forward through graph
     axisSet.yAxis.axisConstraints = [CPTConstraints constraintWithLowerOffset:0.0];
     
-    CPTScatterPlot *plot = [[CPTScatterPlot alloc] init];
-    plot.interpolation = CPTScatterPlotInterpolationCurved;
-    plot.identifier = kDataPlotID;
+    // the plots //
+    ///////////////
+    CPTScatterPlot *dataPlot = [[CPTScatterPlot alloc] init];
+    dataPlot.interpolation = CPTScatterPlotInterpolationCurved;
+    dataPlot.identifier = kDataPlotID;
     CPTMutableLineStyle *dataLineStyle1 = [CPTLineStyle lineStyle];
     dataLineStyle1.lineColor = [CPTColor colorWithComponentRed:0.7 green:0.2 blue:0.2 alpha:0.8];
     dataLineStyle1.lineWidth = 3.0f;
-    plot.dataLineStyle = dataLineStyle1;
-    plot.dataSource = self;
-    [self.graph addPlot:plot];
-    
-    // add area gradient below and above plot
+    dataPlot.dataLineStyle = dataLineStyle1;
+    dataPlot.dataSource = self;
+    [self.graph addPlot:dataPlot];
+    // add area gradient below and above data plot
     CPTColor *areaColor = [CPTColor colorWithComponentRed:0.2 green:0.3 blue:1.0 alpha:0.7];
     CPTGradient *areaGradient = [CPTGradient gradientWithBeginningColor:[CPTColor clearColor] endingColor:areaColor];
     areaGradient.angle = -90.0;
     CPTFill *areaGradientFill = [CPTFill fillWithGradient:areaGradient];
-    plot.areaFill      = areaGradientFill;
-    plot.areaBaseValue = CPTDecimalFromDouble(((BreathWearRecord *)[self.breathrates objectAtIndex:0]).baselineRate);
+    dataPlot.areaFill      = areaGradientFill;
+    dataPlot.areaBaseValue = CPTDecimalFromDouble(((BreathWearRecord *)[self.breathrates objectAtIndex:0]).baselineRate);
     
     CPTScatterPlot *baselinePlot = [[CPTScatterPlot alloc] init];
     baselinePlot.identifier = kBaselinePlotID;
@@ -352,6 +455,17 @@ NSString *kBaselinePlotID = @"Baseline Plot";
     baselinePlot.dataLineStyle = dataLineStyle2;
     baselinePlot.dataSource = self;
     [self.graph addPlot:baselinePlot];
+    
+    // add a legend
+    self.graph.legend                    = [CPTLegend legendWithGraph:self.graph];
+    self.graph.legend.textStyle          = axisSet.xAxis.titleTextStyle;
+    self.graph.legend.fill               = [CPTFill fillWithColor:[CPTColor darkGrayColor]];
+    self.graph.legend.borderLineStyle    = axisSet.xAxis.axisLineStyle;
+    self.graph.legend.cornerRadius       = 5.0;
+    self.graph.legend.swatchSize         = CGSizeMake(25.0, 25.0);
+    self.graph.legend.swatchCornerRadius = 5.0;
+    self.graph.legendAnchor              = CPTRectAnchorTop;
+    self.graph.legendDisplacement        = CGPointMake(0.0, -15.0);
 }
 
 - (void)didReceiveMemoryWarning
