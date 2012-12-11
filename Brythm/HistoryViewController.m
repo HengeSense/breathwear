@@ -81,7 +81,7 @@ NSString *kPlayheadPlotID = @"Playhead";
 - (NSArray *)breathrates
 {
     if (!_breathrates)
-        _breathrates = [self.db getRecordsForSession:DEFAULT_SESSION_ID];
+        _breathrates = [self.db getBreathRateBetween:(double)self.startTime and:(double)self.endTime];
     return _breathrates;
 }
 
@@ -110,7 +110,7 @@ NSString *kPlayheadPlotID = @"Playhead";
     self.dataDelay = firstRecord.timestamp - firstRecord.sessionid;
     
     // Downsample by DOWN_SAMPLE_FACTOR
-    self.breathrates = [self.db getRecordsForSession:DEFAULT_SESSION_ID];
+    self.breathrates = [self.db getBreathRateBetween:(double)self.startTime and:(double)self.endTime];
     NSMutableArray *breathratesTemp = [[NSMutableArray alloc] initWithCapacity:self.breathrates.count/DATA_DOWNSAMPLE_FACTOR];
     for (int i = 0; i < self.breathrates.count; i++) {
         if (i % DATA_DOWNSAMPLE_FACTOR == 0)
@@ -175,7 +175,7 @@ NSString *kPlayheadPlotID = @"Playhead";
         record = [self.plotData objectAtIndex:idx];
     double val = record.breathRate;
     if (fieldEnum == CPTScatterPlotFieldX) {
-        return [NSNumber numberWithDouble:(record.timestamp - record.sessionid - self.dataDelay)];
+        return [NSNumber numberWithDouble:(record.timestamp - record.sessionid - 0.0)];
     } else {
         if(plot.identifier == kDataPlotID)
             return [NSNumber numberWithDouble:val];
@@ -215,30 +215,30 @@ NSString *kPlayheadPlotID = @"Playhead";
     self.graph.defaultPlotSpace.allowsUserInteraction = NO;
     
     // post an annotation around the insightful record
-    //BreathWearRecord *insight = [timer.userInfo objectForKey:@"record"];
+    BreathWearRecord *insight = [timer.userInfo objectForKey:@"record"];
     CPTMutableTextStyle *textStyle = [CPTMutableTextStyle textStyle];
     textStyle.color    = [CPTColor colorWithComponentRed:0.2 green:0.7 blue:0.3 alpha:0.95];
     textStyle.fontSize = 12.0;
     textStyle.fontName = @"Helvetica-Bold";
     
     NSString *annText;
-    switch ([[timer.userInfo objectForKey:@"index"] integerValue]) {
-        case 200:
+    switch ((int)insight.timestamp) {
+        case 1328075942:
             annText = @"*Did the app\nstress you out?\nSorry :)";
             break;
-        case 310:
+        case 1328076061:
             annText = @"+Recovery!\nWhat calmed\nyou here?";
             break;
-        case 450:
+        case 1328076213:
             annText = @"*Stressed again?\nOr maybe\njust excited!";
             break;
-        case 550:
+        case 1328076321:
             annText = @"+Sure is a\nrollercoaster\nride, huh?";
             break;
-        case 750:
+        case 1328076537:
             annText = @"+Great job!\nWhat were you\ndoing during\nthis calm\nperiod?";
             break;
-        case 1000:
+        case 1328076811:
             annText = @"+Umm...you\nokay? JK!\nUltimate calm!";
             break;
             
@@ -271,7 +271,7 @@ NSString *kPlayheadPlotID = @"Playhead";
     
     if (plot && baseline && playhead) {
         BreathWearRecord *record = [self.breathrates objectAtIndex:self.currentIndex];
-        double currTime = (record.timestamp - record.sessionid - self.dataDelay);
+        double currTime = (record.timestamp - record.sessionid - 0.0);
         
         double red = MAX(0.3, (record.breathRate - record.baselineRate) / (20.0 - record.baselineRate));
         double blue = MAX(0.3, (record.baselineRate - record.breathRate) / (record.baselineRate - 5.0));
@@ -299,39 +299,39 @@ NSString *kPlayheadPlotID = @"Playhead";
         // prototyping: pretend we have a list of indices in self.breathrates where
         // insightful data shows up
         NSMutableDictionary *userInfo = [[NSMutableDictionary alloc] init];
-        [userInfo setObject:[self.breathrates objectAtIndex:self.currentIndex] forKey:@"record"];
+        [userInfo setObject:record forKey:@"record"];
         [userInfo setObject:[NSNumber numberWithInt:self.currentIndex] forKey:@"index"];
-        if (self.currentIndex == 200) {
+        if ((int)record.timestamp == 1328075942) {
             self.delayTimer = [NSTimer scheduledTimerWithTimeInterval:24.0/FRAME_RATE
                                                                target:self
                                                              selector:@selector(focusOnInsight:)
                                                              userInfo:userInfo
                                                               repeats:NO];
-        } else if (self.currentIndex == 310) {
+        } else if ((int)record.timestamp == 1328076061) {
             self.delayTimer = [NSTimer scheduledTimerWithTimeInterval:24.0/FRAME_RATE
                                                                target:self
                                                              selector:@selector(focusOnInsight:)
                                                              userInfo:userInfo
                                                               repeats:NO];
-        } else if (self.currentIndex == 450) {
+        } else if ((int)record.timestamp == 1328076213) {
             self.delayTimer = [NSTimer scheduledTimerWithTimeInterval:24.0/FRAME_RATE
                                                                target:self
                                                              selector:@selector(focusOnInsight:)
                                                              userInfo:userInfo
                                                               repeats:NO];
-        } else if (self.currentIndex == 550) {
+        } else if ((int)record.timestamp == 1328076321) {
             self.delayTimer = [NSTimer scheduledTimerWithTimeInterval:24.0/FRAME_RATE
                                                                target:self
                                                              selector:@selector(focusOnInsight:)
                                                              userInfo:userInfo
                                                               repeats:NO];
-        } else if (self.currentIndex == 750) {
+        } else if ((int)record.timestamp == 1328076537) {
             self.delayTimer = [NSTimer scheduledTimerWithTimeInterval:24.0/FRAME_RATE
                                                                target:self
                                                              selector:@selector(focusOnInsight:)
                                                              userInfo:userInfo
                                                               repeats:NO];
-        } else if (self.currentIndex == 1000) {
+        } else if ((int)record.timestamp == 1328076811) {
             self.delayTimer = [NSTimer scheduledTimerWithTimeInterval:24.0/FRAME_RATE
                                                                target:self
                                                              selector:@selector(focusOnInsight:)
@@ -339,7 +339,7 @@ NSString *kPlayheadPlotID = @"Playhead";
                                                               repeats:NO];
         }
 
-        if (self.currentIndex >= self.breathrates.count) {
+        if (self.currentIndex >= self.breathrates.count-1) {
             [self.dataTimer invalidate];
         // add next data point to plots
         } else {
@@ -359,14 +359,16 @@ NSString *kPlayheadPlotID = @"Playhead";
     [super viewDidLoad];
     
     // smooth out data and resample
-    [self preprocess];
+    if (self.breathrates.count != 0)
+        [self preprocess];
     
     // get baseline
-    double baseline = ((BreathWearRecord *)[self.breathrates objectAtIndex:0]).baselineRate;
+    double baseline = (self.breathrates.count == 0) ? 12.0 : ((BreathWearRecord *)[self.breathrates objectAtIndex:0]).baselineRate;
     
     // begin reading through self.breathrates data
     self.currentIndex = 0;
-    [self startDataTimer:nil];
+    if (self.breathrates.count != 0)
+        [self startDataTimer:nil];
     
     // tons of graph set-up //
     //////////////////////////

@@ -24,7 +24,7 @@ static const char *GET_RATE_RECORDS_FOR_SESSION_QUERY = "SELECT sessionid, breat
 static const char *GET_RATE_RECORDS_AFTER_QUERY = "SELECT sessionid, breathrate, timestamp, sensor_value, baseline FROM breathrate WHERE timestamp > ? ORDER BY sessionid, timestamp ASC";
 static const char *DELETE_RECORDS = "DELETE FROM breathrate";
 static const char *GET_COUNT_RATE_RECORDS_BETWEEN_QUERY = "SELECT count(breathrate) FROM breathrate WHERE timestamp > ? AND timestamp < ? ORDER BY sessionid, timestamp ASC";
-static const char *GET_RATES_BETWEEN_QUERY = "SELECT breathrate FROM breathrate WHERE timestamp > ? AND timestamp < ? ORDER BY timestamp ASC";
+static const char *GET_RATES_BETWEEN_QUERY = "SELECT sessionid, breathrate, timestamp, sensor_value, baseline FROM breathrate WHERE timestamp > ? AND timestamp < ? ORDER BY timestamp ASC";
 
 #pragma mark STATIC PROCEDURES
 static NSString *getTextColumnAsString(sqlite3_stmt *stmt, int col)
