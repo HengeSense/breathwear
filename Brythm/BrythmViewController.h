@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface BrythmViewController : UIViewController
+@interface BrythmViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UIPickerViewDelegate>
+
+@property (nonatomic, weak) IBOutlet UIDatePicker *datePicker;
+@property (nonatomic, weak) IBOutlet UITableView *tableView;
 
 @end

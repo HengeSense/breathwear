@@ -357,6 +357,7 @@ NSString *kPlayheadPlotID = @"Playhead";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    NSLog(@"start: %f end: %f", self.startTime, self.endTime);
     
     // smooth out data and resample
     if (self.breathrates.count != 0)
