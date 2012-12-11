@@ -12,7 +12,7 @@
 
 #define DEFAULT_SESSION_ID 1328075662
 
-#define FRAME_RATE 24.0
+#define FRAME_RATE 30.0
 #define SEC_PER_PLOT 600
 #define MAX_BREATH_RATE 20
 
@@ -211,22 +211,22 @@ NSString *kBaselinePlotID = @"Your Goal";
     NSString *annText;
     switch ([[timer.userInfo objectForKey:@"index"] integerValue]) {
         case 200:
-            annText = @"Did the app stress you out? Sorry :)";
+            annText = @"*Did the app stress you out? Sorry :)";
             break;
         case 310:
-            annText = @"Recovery!  What calmed you here?";
+            annText = @"+Recovery!  What calmed you here?";
             break;
         case 450:
-            annText = @"Stressed again?  Maybe it was just something exciting!";
+            annText = @"*Stressed again?  Maybe it was just something exciting!";
             break;
         case 550:
-            annText = @"Sure is a rollercoaster ride, huh?";
+            annText = @"+Sure is a rollercoaster ride, huh?";
             break;
         case 750:
-            annText = @"Great job!  What were you doing during this calm period?";
+            annText = @"+Great job!  What were you doing during this calm period?";
             break;
         case 1000:
-            annText = @"Umm...you okay?  Ultimate calm!";
+            annText = @"+Umm...you okay?  JK, ultimate calm!";
             break;
             
         default:
@@ -259,6 +259,21 @@ NSString *kBaselinePlotID = @"Your Goal";
     if (plot && baseline) {
         BreathWearRecord *record = [self.breathrates objectAtIndex:self.currentIndex];
         double currTime = (record.timestamp - record.sessionid - self.dataDelay);
+        
+        // determine plot color
+        CPTMutableLineStyle *dataLineStyle = [CPTLineStyle lineStyle];
+        double red = MAX(0.3, (record.breathRate - record.baselineRate) / (20.0 - record.baselineRate));
+        double blue = MAX(0.3, (record.baselineRate - record.breathRate) / (record.baselineRate - 5.0));
+        double green = MAX(0.3, 0.5 * blue);
+        dataLineStyle.lineColor = [CPTColor colorWithComponentRed:red green:green blue:blue alpha:0.7];
+        dataLineStyle.lineWidth = 3.0f;
+        plot.dataLineStyle = dataLineStyle;
+        /* // change area color
+        CPTColor *areaColor = [CPTColor colorWithComponentRed:red green:green blue:blue alpha:0.7];
+        CPTGradient *areaGradient = [CPTGradient gradientWithBeginningColor:[CPTColor clearColor] endingColor:areaColor];
+        areaGradient.angle = -90.0;
+        CPTFill *areaGradientFill = [CPTFill fillWithGradient:areaGradient];
+        plot.areaFill = areaGradientFill;*/
         
         /*// delete old data points
         if (currTime >= SEC_PER_PLOT) {
@@ -363,9 +378,15 @@ NSString *kBaselinePlotID = @"Your Goal";
     CPTXYPlotSpace *plotSpace = (CPTXYPlotSpace *)self.graph.defaultPlotSpace;
     plotSpace.xRange = [CPTPlotRange plotRangeWithLocation:CPTDecimalFromFloat(0)
                                                     length:CPTDecimalFromFloat(SEC_PER_PLOT)];
-    plotSpace.yRange = [CPTPlotRange plotRangeWithLocation:CPTDecimalFromFloat(baseline - baseline)
-                                                    length:CPTDecimalFromFloat(MAX_BREATH_RATE)];
+    plotSpace.yRange = [CPTPlotRange plotRangeWithLocation:CPTDecimalFromFloat(baseline - 7.0)
+                                                    length:CPTDecimalFromFloat(14.0)];
     plotSpace.allowsUserInteraction = YES;
+    
+    // text styles
+    CPTMutableTextStyle *labelTextStyle = [CPTMutableTextStyle textStyle];
+    labelTextStyle.color    = [[CPTColor whiteColor] colorWithAlphaComponent:0.7];
+    labelTextStyle.fontSize = 12.0;
+    labelTextStyle.fontName = @"Helvetica";
     
     // axes
     CPTXYAxisSet *axisSet = (CPTXYAxisSet *)self.graph.axisSet;
@@ -384,7 +405,8 @@ NSString *kBaselinePlotID = @"Your Goal";
     axisSet.xAxis.axisLineStyle = axisLineStyle;
     axisSet.xAxis.minorTickLength = 5.0f;
     axisSet.xAxis.majorTickLength = 7.0f;
-    axisSet.xAxis.title = @"Time (seconds)";
+    axisSet.xAxis.title = @"Time (sec since session start)";
+    axisSet.xAxis.titleTextStyle = labelTextStyle;
     axisSet.xAxis.titleOffset = 25.0;
     axisSet.xAxis.labelingPolicy = CPTAxisLabelingPolicyAutomatic;
     axisSet.xAxis.axisConstraints = [CPTConstraints constraintWithLowerOffset:0.0];
@@ -434,18 +456,18 @@ NSString *kBaselinePlotID = @"Your Goal";
     dataPlot.interpolation = CPTScatterPlotInterpolationCurved;
     dataPlot.identifier = kDataPlotID;
     CPTMutableLineStyle *dataLineStyle1 = [CPTLineStyle lineStyle];
-    dataLineStyle1.lineColor = [CPTColor colorWithComponentRed:0.7 green:0.2 blue:0.2 alpha:0.8];
+    dataLineStyle1.lineColor = [[CPTColor whiteColor] colorWithAlphaComponent:0.7];
     dataLineStyle1.lineWidth = 3.0f;
     dataPlot.dataLineStyle = dataLineStyle1;
     dataPlot.dataSource = self;
     [self.graph addPlot:dataPlot];
     // add area gradient below and above data plot
-    CPTColor *areaColor = [CPTColor colorWithComponentRed:0.2 green:0.3 blue:1.0 alpha:0.7];
+    CPTColor *areaColor = [CPTColor colorWithComponentRed:0.2 green:0.3 blue:0.6 alpha:0.7];
     CPTGradient *areaGradient = [CPTGradient gradientWithBeginningColor:[CPTColor clearColor] endingColor:areaColor];
     areaGradient.angle = -90.0;
     CPTFill *areaGradientFill = [CPTFill fillWithGradient:areaGradient];
     dataPlot.areaFill      = areaGradientFill;
-    dataPlot.areaBaseValue = CPTDecimalFromDouble(((BreathWearRecord *)[self.breathrates objectAtIndex:0]).baselineRate);
+    dataPlot.areaBaseValue = CPTDecimalFromDouble(baseline);
     
     CPTScatterPlot *baselinePlot = [[CPTScatterPlot alloc] init];
     baselinePlot.identifier = kBaselinePlotID;
