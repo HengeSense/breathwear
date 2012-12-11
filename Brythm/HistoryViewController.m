@@ -20,8 +20,11 @@
 
 #define INSIGHT_PAUSE_TIME 3.0
 
+#define PLAYHEAD_LOCATION_FRAC 0.7
+
 NSString *kDataPlotID = @"You";
 NSString *kBaselinePlotID = @"Your Goal";
+NSString *kPlayheadPlotID = @"Playhead";
 
 
 @interface HistoryViewController ()
@@ -165,7 +168,11 @@ NSString *kBaselinePlotID = @"Your Goal";
 
 -(NSNumber *)numberForPlot:(CPTPlot *)plot field:(NSUInteger)fieldEnum recordIndex:(NSUInteger)idx
 {
-    BreathWearRecord *record = [self.plotData objectAtIndex:idx];
+    BreathWearRecord *record;
+    if (plot.identifier == kPlayheadPlotID)
+        record = [self.plotData objectAtIndex:self.currentIndex];
+    else
+        record = [self.plotData objectAtIndex:idx];
     double val = record.breathRate;
     if (fieldEnum == CPTScatterPlotFieldX) {
         return [NSNumber numberWithDouble:(record.timestamp - record.sessionid - self.dataDelay)];
@@ -174,8 +181,14 @@ NSString *kBaselinePlotID = @"Your Goal";
             return [NSNumber numberWithDouble:val];
         else if (plot.identifier == kBaselinePlotID)
             return [NSNumber numberWithDouble:record.baselineRate];
-        else
-            return [NSNumber numberWithDouble:0.0];
+        else {
+            if (idx == 0)
+                return [NSNumber numberWithDouble:-100.0];
+            else if (idx == 1)
+                return [NSNumber numberWithDouble:-100.0];
+            else
+                return [NSNumber numberWithDouble:100.0];
+        }
     }
 }
 
@@ -204,29 +217,29 @@ NSString *kBaselinePlotID = @"Your Goal";
     // post an annotation around the insightful record
     //BreathWearRecord *insight = [timer.userInfo objectForKey:@"record"];
     CPTMutableTextStyle *textStyle = [CPTMutableTextStyle textStyle];
-    textStyle.color    = [[CPTColor greenColor] colorWithAlphaComponent:0.7];
+    textStyle.color    = [CPTColor colorWithComponentRed:0.2 green:0.7 blue:0.3 alpha:0.95];
     textStyle.fontSize = 12.0;
     textStyle.fontName = @"Helvetica-Bold";
     
     NSString *annText;
     switch ([[timer.userInfo objectForKey:@"index"] integerValue]) {
         case 200:
-            annText = @"*Did the app stress you out? Sorry :)";
+            annText = @"*Did the app\nstress you out?\nSorry :)";
             break;
         case 310:
-            annText = @"+Recovery!  What calmed you here?";
+            annText = @"+Recovery!\nWhat calmed\nyou here?";
             break;
         case 450:
-            annText = @"*Stressed again?  Maybe it was just something exciting!";
+            annText = @"*Stressed again?\nOr maybe\njust excited!";
             break;
         case 550:
-            annText = @"+Sure is a rollercoaster ride, huh?";
+            annText = @"+Sure is a\nrollercoaster\nride, huh?";
             break;
         case 750:
-            annText = @"+Great job!  What were you doing during this calm period?";
+            annText = @"+Great job!\nWhat were you\ndoing during\nthis calm\nperiod?";
             break;
         case 1000:
-            annText = @"+Umm...you okay?  JK, ultimate calm!";
+            annText = @"+Umm...you\nokay? JK!\nUltimate calm!";
             break;
             
         default:
@@ -234,16 +247,15 @@ NSString *kBaselinePlotID = @"Your Goal";
     }
     
     CPTTextLayer *textLayer = [[CPTTextLayer alloc] initWithText:annText style:textStyle];
-    CPTLayerAnnotation *instructionsAnnotation = [[CPTLayerAnnotation alloc] initWithAnchorLayer:self.graph.plotAreaFrame.plotArea];
-    instructionsAnnotation.contentLayer       = textLayer;
-    instructionsAnnotation.rectAnchor         = CPTRectAnchorBottom;
-    instructionsAnnotation.contentAnchorPoint = CGPointMake(0.5, 0.0);
-    instructionsAnnotation.displacement       = CGPointMake(0.0, 10.0);
-    [self.graph.plotAreaFrame.plotArea addAnnotation:instructionsAnnotation];
-
+    CPTLayerAnnotation *insightAnn = [[CPTLayerAnnotation alloc] initWithAnchorLayer:self.graph.plotAreaFrame.plotArea];
+    insightAnn.contentLayer = textLayer;
+    insightAnn.rectAnchor = CPTRectAnchorRight;
+    insightAnn.contentAnchorPoint = CGPointMake(0.5, 0.5);
+    double graphWidth = self.graph.plotAreaFrame.plotArea.bounds.size.width;
+    insightAnn.displacement = CGPointMake(-graphWidth*(1-PLAYHEAD_LOCATION_FRAC)/2.0, 0.0);
+    [self.graph.plotAreaFrame.plotArea addAnnotation:insightAnn];
     
-    
-    // continue animation graph after a pause
+    // continue animating graph after a pause
     self.resumeTimer = [NSTimer scheduledTimerWithTimeInterval:INSIGHT_PAUSE_TIME
                                                         target:self
                                                       selector:@selector(startDataTimer:)
@@ -255,36 +267,32 @@ NSString *kBaselinePlotID = @"Your Goal";
 {
     CPTScatterPlot *plot = (CPTScatterPlot *)[self.graph plotWithIdentifier:kDataPlotID];
     CPTScatterPlot *baseline = (CPTScatterPlot *)[self.graph plotWithIdentifier:kBaselinePlotID];
+    CPTScatterPlot *playhead = (CPTScatterPlot *)[self.graph plotWithIdentifier:kPlayheadPlotID];
     
-    if (plot && baseline) {
+    if (plot && baseline && playhead) {
         BreathWearRecord *record = [self.breathrates objectAtIndex:self.currentIndex];
         double currTime = (record.timestamp - record.sessionid - self.dataDelay);
         
-        // determine plot color
-        CPTMutableLineStyle *dataLineStyle = [CPTLineStyle lineStyle];
         double red = MAX(0.3, (record.breathRate - record.baselineRate) / (20.0 - record.baselineRate));
         double blue = MAX(0.3, (record.baselineRate - record.breathRate) / (record.baselineRate - 5.0));
         double green = MAX(0.3, 0.5 * blue);
+
+        // determine plot color
+        CPTMutableLineStyle *dataLineStyle = [CPTLineStyle lineStyle];
         dataLineStyle.lineColor = [CPTColor colorWithComponentRed:red green:green blue:blue alpha:0.7];
         dataLineStyle.lineWidth = 3.0f;
         plot.dataLineStyle = dataLineStyle;
-        /* // change area color
+        
+        /*// change area color
         CPTColor *areaColor = [CPTColor colorWithComponentRed:red green:green blue:blue alpha:0.7];
         CPTGradient *areaGradient = [CPTGradient gradientWithBeginningColor:[CPTColor clearColor] endingColor:areaColor];
         areaGradient.angle = -90.0;
         CPTFill *areaGradientFill = [CPTFill fillWithGradient:areaGradient];
         plot.areaFill = areaGradientFill;*/
         
-        /*// delete old data points
-        if (currTime >= SEC_PER_PLOT) {
-            [self.plotData removeObjectAtIndex:0];
-            [plot deleteDataInIndexRange:NSMakeRange(0, 1)];
-            [baseline deleteDataInIndexRange:NSMakeRange(0, 1)];
-        }*/
-        
         // shift plotSpace to the right once the plot reaches the right edge of window
         CPTXYPlotSpace *plotSpace = (CPTXYPlotSpace *)self.graph.defaultPlotSpace;
-        NSUInteger location = (currTime >= SEC_PER_PLOT ? (currTime - SEC_PER_PLOT) : 0);
+        NSUInteger location = (currTime >= SEC_PER_PLOT*PLAYHEAD_LOCATION_FRAC ? (currTime - SEC_PER_PLOT*PLAYHEAD_LOCATION_FRAC) : 0);
         plotSpace.xRange = [CPTPlotRange plotRangeWithLocation:CPTDecimalFromUnsignedInteger(location)
                                                         length:CPTDecimalFromUnsignedInteger(SEC_PER_PLOT)];
         
@@ -331,15 +339,16 @@ NSString *kBaselinePlotID = @"Your Goal";
                                                               repeats:NO];
         }
 
-        self.currentIndex += 1;
         if (self.currentIndex >= self.breathrates.count) {
             [self.dataTimer invalidate];
-        // add next data point to plotData
+        // add next data point to plots
         } else {
             [self.plotData addObject:[self.breathrates objectAtIndex:self.currentIndex]];
             [plot insertDataAtIndex:self.plotData.count-1 numberOfRecords:1];
             [baseline insertDataAtIndex:self.plotData.count-1 numberOfRecords:1];
+            [playhead insertDataAtIndex:(self.currentIndex > 2) ? 1 : self.currentIndex numberOfRecords:1];
         }
+        self.currentIndex += 1;
     }
 }
 
@@ -488,6 +497,15 @@ NSString *kBaselinePlotID = @"Your Goal";
     self.graph.legend.swatchCornerRadius = 5.0;
     self.graph.legendAnchor              = CPTRectAnchorTop;
     self.graph.legendDisplacement        = CGPointMake(0.0, -15.0);
+    
+    CPTScatterPlot *playheadPlot = [[CPTScatterPlot alloc] init];
+    playheadPlot.identifier = kPlayheadPlotID;
+    CPTMutableLineStyle *dataLineStyle3 = [CPTLineStyle lineStyle];
+    dataLineStyle3.lineColor = [CPTColor colorWithComponentRed:0.2 green:0.6 blue:0.3 alpha:0.7];
+    dataLineStyle3.lineWidth = 2.0f;
+    playheadPlot.dataLineStyle = dataLineStyle3;
+    playheadPlot.dataSource = self;
+    [self.graph addPlot:playheadPlot];
 }
 
 - (void)didReceiveMemoryWarning
