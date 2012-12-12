@@ -12,7 +12,7 @@
 
 #define DEFAULT_SESSION_ID 1328075662
 
-#define FRAME_RATE 30.0
+#define FRAME_RATE 48.0
 #define SEC_PER_PLOT 600
 #define MAX_BREATH_RATE 20
 
@@ -81,7 +81,7 @@ NSString *kPlayheadPlotID = @"Playhead";
 - (NSArray *)breathrates
 {
     if (!_breathrates)
-        _breathrates = [self.db getBreathRateBetween:(double)self.startTime and:(double)self.endTime];
+        _breathrates = [self.db getBreathRateBetween:self.startTime and:self.endTime];
     return _breathrates;
 }
 
@@ -110,7 +110,6 @@ NSString *kPlayheadPlotID = @"Playhead";
     self.dataDelay = firstRecord.timestamp - firstRecord.sessionid;
     
     // Downsample by DOWN_SAMPLE_FACTOR
-    self.breathrates = [self.db getBreathRateBetween:(double)self.startTime and:(double)self.endTime];
     NSMutableArray *breathratesTemp = [[NSMutableArray alloc] initWithCapacity:self.breathrates.count/DATA_DOWNSAMPLE_FACTOR];
     for (int i = 0; i < self.breathrates.count; i++) {
         if (i % DATA_DOWNSAMPLE_FACTOR == 0)
@@ -272,6 +271,8 @@ NSString *kPlayheadPlotID = @"Playhead";
     if (plot && baseline && playhead) {
         BreathWearRecord *record = [self.breathrates objectAtIndex:self.currentIndex];
         double currTime = (record.timestamp - record.sessionid - 0.0);
+        BreathWearRecord *firstRecord = [self.breathrates objectAtIndex:0];
+        double firstTime = (firstRecord.timestamp - firstRecord.sessionid - 0.0);
         
         double red = MAX(0.3, (record.breathRate - record.baselineRate) / (20.0 - record.baselineRate));
         double blue = MAX(0.3, (record.baselineRate - record.breathRate) / (record.baselineRate - 5.0));
@@ -292,7 +293,7 @@ NSString *kPlayheadPlotID = @"Playhead";
         
         // shift plotSpace to the right once the plot reaches the right edge of window
         CPTXYPlotSpace *plotSpace = (CPTXYPlotSpace *)self.graph.defaultPlotSpace;
-        NSUInteger location = (currTime >= SEC_PER_PLOT*PLAYHEAD_LOCATION_FRAC ? (currTime - SEC_PER_PLOT*PLAYHEAD_LOCATION_FRAC) : 0);
+        NSUInteger location = (currTime-firstTime >= (SEC_PER_PLOT)*PLAYHEAD_LOCATION_FRAC ? currTime - (SEC_PER_PLOT)*PLAYHEAD_LOCATION_FRAC : firstTime);
         plotSpace.xRange = [CPTPlotRange plotRangeWithLocation:CPTDecimalFromUnsignedInteger(location)
                                                         length:CPTDecimalFromUnsignedInteger(SEC_PER_PLOT)];
         
@@ -357,14 +358,16 @@ NSString *kPlayheadPlotID = @"Playhead";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    NSLog(@"start: %f end: %f", self.startTime, self.endTime);
+    
+    self.breathrates = [self.db getBreathRateBetween:self.startTime and:self.endTime];
     
     // smooth out data and resample
     if (self.breathrates.count != 0)
         [self preprocess];
     
     // get baseline
-    double baseline = (self.breathrates.count == 0) ? 12.0 : ((BreathWearRecord *)[self.breathrates objectAtIndex:0]).baselineRate;
+    BreathWearRecord *firstRecord = (self.breathrates.count == 0) ? nil : (BreathWearRecord *)[self.breathrates objectAtIndex:0];
+    double baseline = (firstRecord == nil) ? 12.0 : ((BreathWearRecord *)[self.breathrates objectAtIndex:0]).baselineRate;
     
     // begin reading through self.breathrates data
     self.currentIndex = 0;
@@ -388,7 +391,8 @@ NSString *kPlayheadPlotID = @"Playhead";
     self.graph.plotAreaFrame.paddingBottom = 50.0;
     
     CPTXYPlotSpace *plotSpace = (CPTXYPlotSpace *)self.graph.defaultPlotSpace;
-    plotSpace.xRange = [CPTPlotRange plotRangeWithLocation:CPTDecimalFromFloat(0)
+    float firstTime = (firstRecord == nil) ? 0.0 : firstRecord.timestamp - firstRecord.sessionid;
+    plotSpace.xRange = [CPTPlotRange plotRangeWithLocation:CPTDecimalFromFloat(firstTime)
                                                     length:CPTDecimalFromFloat(SEC_PER_PLOT)];
     plotSpace.yRange = [CPTPlotRange plotRangeWithLocation:CPTDecimalFromFloat(baseline - 7.0)
                                                     length:CPTDecimalFromFloat(14.0)];
