@@ -102,7 +102,6 @@
     BOOL okay = NO;
     
     if ([self.startDate compare:self.endDate] == NSOrderedAscending) {
-        NSLog(@"date1 is earlier than date2");
         okay = YES;
     }
     
@@ -152,7 +151,7 @@
     //[dateFormatter setDateStyle:NSDateFormatterMediumStyle];
     self.previousSelectedCell = self.currentSelectedCell;
     self.currentSelectedCell = indexPath.row;
-    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    //UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     if (indexPath.row == 0) {
         //self.datePicker.date = [dateFormatter dateFromString:@"01-02-2010"];
         //self.datePicker.date = [dateFormatter dateFromString:self.startDate];
@@ -174,7 +173,7 @@
     }
     // Navigation logic may go here. Create and push another view controller.
     if (indexPath.row == 2) {
-        HistoryViewController *detailViewController = [[HistoryViewController alloc] init];
+        //HistoryViewController *detailViewController = [[HistoryViewController alloc] init];
         // ...
         // Pass the selected object to the new view controller.
         //[self.navigationController pushViewController:detailViewController animated:YES];

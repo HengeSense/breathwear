@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2844" systemVersion="11G63" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="fdZ-VG-ghk">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2844" systemVersion="12C60" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="fdZ-VG-ghk">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1930"/>
     </dependencies>
@@ -13,19 +13,6 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="bg.png" translatesAutoresizingMaskIntoConstraints="NO" id="Rf2-Fz-0ay"/>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="brH-Wk-Bb8">
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="Graph!">
-                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <segue destination="A0V-yd-eBO" kind="push" identifier="graph" id="iSJ-ys-o6w"/>
-                                </connections>
-                            </button>
                             <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="30" translatesAutoresizingMaskIntoConstraints="NO" id="qG9-eR-WJc">
                                 <constraints>
                                     <constraint firstAttribute="height" constant="216" id="bxb-9y-rzN"/>
@@ -34,7 +21,7 @@
                                     <!--2012-12-11 10:55:19 +0000-->
                                 </date>
                                 <timeZone key="timeZone" name="America/Los_Angeles">
-                                    <mutableData key="data">
+                                    <data key="data">
 VFppZgAAAAAAAAAAAAAAAAAAAAAAAAAEAAAABAAAAAAAAAC5AAAABAAAABCepkign7sVkKCGKqChmveQ
 y4kaoNIj9HDSYSYQ1v50INiArZDa/tGg28CQENzes6DdqayQ3r6VoN+JjpDgnneg4WlwkOJ+WaDjSVKQ
 5F47oOUpNJDmR1gg5xJREOgnOiDo8jMQ6gccIOrSFRDr5v4g7LH3EO3G4CDukdkQ76/8oPBxuxDxj96g
@@ -52,16 +39,16 @@ f5gqkAABAAECAwEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEA
 AQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEA
 AQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEA
 AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
-</mutableData>
+</data>
                                 </timeZone>
                             </datePicker>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="4g4-hl-naG">
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="241" id="qyc-zk-WmV"/>
+                                    <constraint firstAttribute="height" constant="200" id="vlt-HL-VbI"/>
                                 </constraints>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="ehr-DV-I2O" detailTextLabel="DfG-ra-eMi" style="IBUITableViewCellStyleValue1" id="Csk-fJ-75J">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell1" textLabel="ehr-DV-I2O" detailTextLabel="DfG-ra-eMi" style="IBUITableViewCellStyleValue1" id="Csk-fJ-75J">
                                         <rect key="frame" x="0.0" y="46" width="320" height="45"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -86,7 +73,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="nOG-55-XR2" detailTextLabel="qOP-A5-8JQ" style="IBUITableViewCellStyleValue1" id="rlo-Cf-Enl">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell2" textLabel="nOG-55-XR2" detailTextLabel="qOP-A5-8JQ" style="IBUITableViewCellStyleValue1" id="rlo-Cf-Enl">
                                         <rect key="frame" x="0.0" y="91" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -111,7 +98,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="0jK-S9-RYP" style="IBUITableViewCellStyleDefault" id="rYZ-TB-SQl">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell3" textLabel="0jK-S9-RYP" style="IBUITableViewCellStyleDefault" id="rYZ-TB-SQl">
                                         <rect key="frame" x="0.0" y="135" width="320" height="45"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -136,23 +123,22 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="4g4-hl-naG" firstAttribute="leading" secondItem="CRF-RH-BzC" secondAttribute="leading" type="default" id="2GN-Jb-vEH"/>
+                            <constraint firstItem="qG9-eR-WJc" firstAttribute="trailing" secondItem="CRF-RH-BzC" secondAttribute="trailing" type="default" id="3Qm-ty-obw"/>
                             <constraint firstItem="Rf2-Fz-0ay" firstAttribute="leading" secondItem="CRF-RH-BzC" secondAttribute="leading" type="default" id="3zW-Vb-pCt"/>
-                            <constraint firstItem="qG9-eR-WJc" firstAttribute="top" secondItem="brH-Wk-Bb8" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="9q3-Jg-RbH"/>
-                            <constraint firstItem="qG9-eR-WJc" firstAttribute="trailing" secondItem="CRF-RH-BzC" secondAttribute="trailing" type="default" id="CXz-O1-waT"/>
                             <constraint firstItem="4g4-hl-naG" firstAttribute="trailing" secondItem="CRF-RH-BzC" secondAttribute="trailing" type="default" id="J9f-yH-47q"/>
-                            <constraint firstItem="qG9-eR-WJc" firstAttribute="leading" secondItem="CRF-RH-BzC" secondAttribute="leading" type="default" id="VLS-h8-cwL"/>
-                            <constraint firstItem="brH-Wk-Bb8" firstAttribute="centerX" secondItem="qG9-eR-WJc" secondAttribute="centerX" type="default" id="Y5o-IW-qfU"/>
-                            <constraint firstItem="4g4-hl-naG" firstAttribute="top" secondItem="CRF-RH-BzC" secondAttribute="top" constant="-5" id="aL3-NU-PyW"/>
                             <constraint firstItem="Rf2-Fz-0ay" firstAttribute="bottom" secondItem="CRF-RH-BzC" secondAttribute="bottom" type="default" id="ea2-fG-Rpm"/>
-                            <constraint firstItem="qG9-eR-WJc" firstAttribute="bottom" secondItem="CRF-RH-BzC" secondAttribute="bottom" type="default" id="iXc-HO-Bpu"/>
+                            <constraint firstItem="qG9-eR-WJc" firstAttribute="leading" secondItem="CRF-RH-BzC" secondAttribute="leading" type="default" id="hzd-ql-swA"/>
                             <constraint firstItem="Rf2-Fz-0ay" firstAttribute="trailing" secondItem="CRF-RH-BzC" secondAttribute="trailing" type="default" id="me1-7Y-7gM"/>
+                            <constraint firstItem="qG9-eR-WJc" firstAttribute="bottom" secondItem="CRF-RH-BzC" secondAttribute="bottom" type="default" id="oRW-mM-dwV"/>
                             <constraint firstItem="Rf2-Fz-0ay" firstAttribute="top" secondItem="CRF-RH-BzC" secondAttribute="top" type="default" id="xD3-mU-NVf"/>
+                            <constraint firstItem="4g4-hl-naG" firstAttribute="top" secondItem="CRF-RH-BzC" secondAttribute="top" type="default" id="yDG-39-S2X"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Brythm" id="Cm3-EQ-iPV"/>
                     <connections>
                         <outlet property="datePicker" destination="qG9-eR-WJc" id="kIN-tm-nCl"/>
                         <outlet property="tableView" destination="4g4-hl-naG" id="1dO-OF-pjh"/>
+                        <segue destination="A0V-yd-eBO" kind="push" identifier="graph" id="UgF-Fr-Y0C"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pvh-ce-sBe" userLabel="First Responder" sceneMemberID="firstResponder"/>
